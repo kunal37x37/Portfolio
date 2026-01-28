@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoldenSparrow | Aurora Galaxy Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+</head>
+
+<body>
+    <!-- Dynamic Aurora Layers -->
+    <div class="aurora-layer aurora-1"></div>
+    <div class="aurora-layer aurora-2"></div>
+    <div class="aurora-layer aurora-3"></div>
+    <div class="aurora-layer aurora-4"></div>
+
+    <!-- Enhanced Nebula Clouds -->
+    <div class="nebula-cloud nebula-a"></div>
+    <div class="nebula-cloud nebula-b"></div>
+    <div class="nebula-cloud nebula-c"></div>
+
+    <!-- Starfield Background -->
+    <div class="starfield" id="starfield"></div>
+
+    <!-- Enhanced Starfall Container -->
+    <div class="starfall-container" id="starfall"></div>
+
+    <!-- Shooting Stars Container -->
+    <div class="shooting-stars" id="shootingStars"></div>
+
+    <!-- Meteor Shower -->
+    <div class="meteor-shower" id="meteorShower"></div>
+
+    <!-- Floating Space Debris -->
+    <div class="space-debris" id="spaceDebris"></div>
+
+    <!-- Professional Cursor System -->
+    <div class="cursor-triangle" id="cursorTriangle"></div>
+    <div class="cursor-circle" id="cursorCircle"></div>
+    <div class="cursor-trail" id="cursorTrail"></div>
+
+    <!-- Main Content Container -->
+    <div class="content-container">
+        <!-- Navigation -->
+        <nav class="cosmic-nav">
+            <div class="nav-wrapper">
+                <div class="logo-container">
+                    <div class="logo-sphere">
+                        <div class="sphere-inner">GS</div>
+                        <div class="sphere-glow"></div>
+                        <div class="sphere-ring"></div>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-primary">Golden</span>
+                        <span class="logo-accent">Sparrow</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <ul class="nav-menu">
+                        <li>
+                            <a href="#home" class="nav-item active">
+                                <span class="nav-index">01</span>
+                                <span class="nav-label">Home</span>
+                                <span class="nav-glow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#about" class="nav-item">
+                                <span class="nav-index">02</span>
+                                <span class="nav-label">About</span>
+                                <span class="nav-glow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#experience" class="nav-item">
+                                <span class="nav-index">03</span>
+                                <span class="nav-label">Experience</span>
+                                <span class="nav-glow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#education" class="nav-item">
+                                <span class="nav-index">04</span>
+                                <span class="nav-label">Education</span>
+                                <span class="nav-glow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#projects" class="nav-item">
+                                <span class="nav-index">05</span>
+                                <span class="nav-label">Projects</span>
+                                <span class="nav-glow"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#contact" class="nav-item">
+                                <span class="nav-index">06</span>
+                                <span class="nav-label">Contact</span>
+                                <span class="nav-glow"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="theme-control">
+                    <div class="theme-switch">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <div class="switch-toggle"></div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="hero-wrapper">
+                <div class="hero-content">
+                    <div class="hero-tag">
+                        <div class="tag-glow"></div>
+                        <span class="tag-text">Full Stack Developer</span>
+                    </div>
+
+                    <h1 class="hero-headline">
+                        <span class="headline-line">Hello, I'm</span>
+                        <span class="headline-line">
+                            <span class="headline-name">Kunal</span>
+                        <span class="headline-accent">Patel</span>
+                        </span>
+                        <span class="headline-line">
+                            <span class="typewriter-text" id="typewriterText"></span>
+                        <span class="typewriter-cursor">|</span>
+                        </span>
+                    </h1>
+
+                    <p class="hero-description">
+                        A passionate Computer Science student & developer crafting digital experiences with modern technologies. Known as <span class="golden-text">GoldenSparrow</span> in the developer community.
+                    </p>
+
+                    <div class="hero-cta">
+                        <a href="#projects" class="cta-button primary-btn">
+                            <span class="button-text">Explore Projects</span>
+                            <span class="button-icon">
+                                <i class="fas fa-rocket"></i>
+                            </span>
+                            <span class="button-glow"></span>
+                        </a>
+                        <a href="#contact" class="cta-button secondary-btn">
+                            <span class="button-text">Connect With Me</span>
+                            <span class="button-icon">
+                                <i class="fas fa-comment-dots"></i>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="hero-metrics">
+                        <div class="metric-card">
+                            <div class="metric-value">25+</div>
+                            <div class="metric-label">Projects</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">15+</div>
+                            <div class="metric-label">Technologies</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">4+</div>
+                            <div class="metric-label">Years Experience</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="rotating-cube">
+                        <div class="cube-inner">
+                            <!-- Front Face - Profile -->
+                            <!-- Front Face - Profile -->
+                            <div class="cube-face cube-front">
+                                <div class="profile-display">
+                                    <div class="profile-frame">
+                                        <!-- Google Drive Profile Image -->
+                                        <img src="assets/profile_image.png" alt="Profile Image" class="profile-image">
+                                    </div>
+                                    <div class="profile-title">
+                                        <span class="nickname">Patel Kunal</span>
+                                        <span class="role">nickname : GoldenSparrow</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right Face - Tech Stack -->
+                            <div class="cube-face cube-right">
+                                <div class="tech-display">
+                                    <h3>Tech Stack</h3>
+                                    <div class="tech-icons">
+                                        <div class="tech-icon">
+                                            <i class="fab fa-react"></i>
+                                            <span>React</span>
+                                        </div>
+                                        <div class="tech-icon">
+                                            <i class="fab fa-node-js"></i>
+                                            <span>Node.js</span>
+                                        </div>
+                                        <div class="tech-icon">
+                                            <i class="fas fa-database"></i>
+                                            <span>MongoDB</span>
+                                        </div>
+                                        <div class="tech-icon">
+                                            <i class="fab fa-js"></i>
+                                            <span>JavaScript</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Back Face - GoldenSparrow -->
+                            <div class="cube-face cube-back">
+                                <div class="nickname-display">
+                                    <div class="golden-logo">
+                                        <i class="fas fa-dove"></i>
+                                    </div>
+                                    <h2 class="nickname-title">GoldenSparrow</h2>
+                                    <p class="nickname-desc">Developer Alias</p>
+                                    <div class="sparkle-effect">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Left Face - Skills -->
+                            <div class="cube-face cube-left">
+                                <div class="skills-display">
+                                    <h3>Core Skills</h3>
+                                    <div class="skills-list">
+                                        <div class="skill-item">
+                                            <span>Web Development</span>
+                                            <div class="skill-bar">
+                                                <div class="skill-fill" style="width: 95%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="skill-item">
+                                            <span>Problem Solving</span>
+                                            <div class="skill-bar">
+                                                <div class="skill-fill" style="width: 90%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="skill-item">
+                                            <span>Data Structures and Algorithms</span>
+                                            <div class="skill-bar">
+                                                <div class="skill-fill" style="width: 85%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cube-glow"></div>
+                    </div>
+
+                    <div class="visual-trail"></div>
+                </div>
+            </div>
+
+            <div class="scroll-indicator">
+                <div class="scroll-path">
+                    <div class="scroll-dot"></div>
+                </div>
+                <span class="scroll-text">Explore More</span>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <div class="section-marker">
+                        <span class="marker-number">02</span>
+                        <span class="marker-line"></span>
+                        <span class="marker-label">About Me</span>
+                    </div>
+                    <h2 class="section-title">The Developer Behind GoldenSparrow</h2>
+                    <p class="section-subtitle">Crafting digital experiences with passion and precision</p>
+                </div>
+
+                <div class="about-grid">
+                    <div class="about-content">
+                        <div class="about-intro">
+                            <h3>Computer Science Engineer</h3>
+                            <p>
+                                I'm Kunal Patel, a passionate Computer Science student with a deep interest in software development and innovative problem-solving. My journey in technology began with curiosity and has evolved into a commitment to creating elegant, efficient solutions.
+                            </p>
+                            <p>
+                                As <span class="highlight">GoldenSparrow</span>, I bring creativity and technical expertise to every project. Currently pursuing my B.Tech at Uka Tarsadia University, I maintain an excellent academic record while actively
+                                working on real-world applications.
+                            </p>
+                        </div>
+
+                        <div class="about-features">
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="feature-details">
+                                    <h4>Location</h4>
+                                    <p>Valsad, Gujarat, India</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-language"></i>
+                                </div>
+                                <div class="feature-details">
+                                    <h4>Languages</h4>
+                                    <p>English, Hindi, Gujarati</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div class="feature-details">
+                                    <h4>Education</h4>
+                                    <p>B.Tech CSE (2023-2026)</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="feature-details">
+                                    <h4>Status</h4>
+                                    <p>Available for Internships</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-stats">
+                        <div class="stats-container">
+                            <div class="stats-header">
+                                <h3>Technical Mastery</h3>
+                                <div class="stats-progress">
+                                    <div class="circular-progress" data-value="88">
+                                        <svg width="100" height="100" viewBox="0 0 100 100">
+                                            <circle class="progress-bg" cx="50" cy="50" r="45"></circle>
+                                            <circle class="progress-fill" cx="50" cy="50" r="45"></circle>
+                                        </svg>
+                                        <span class="progress-text">88%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="stats-details">
+                                <div class="stat-item">
+                                    <div class="stat-label">
+                                        <span>Frontend Development</span>
+                                        <span>95%</span>
+                                    </div>
+                                    <div class="stat-bar">
+                                        <div class="bar-progress" style="width: 95%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="stat-item">
+                                    <div class="stat-label">
+                                        <span>Backend Development</span>
+                                        <span>85%</span>
+                                    </div>
+                                    <div class="stat-bar">
+                                        <div class="bar-progress" style="width: 85%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="stat-item">
+                                    <div class="stat-label">
+                                        <span>Database Management</span>
+                                        <span>80%</span>
+                                    </div>
+                                    <div class="stat-bar">
+                                        <div class="bar-progress" style="width: 80%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="stat-item">
+                                    <div class="stat-label">
+                                        <span>Problem Solving</span>
+                                        <span>90%</span>
+                                    </div>
+                                    <div class="stat-bar">
+                                        <div class="bar-progress" style="width: 90%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="experience-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <div class="section-marker">
+                        <span class="marker-number">03</span>
+                        <span class="marker-line"></span>
+                        <span class="marker-label">Experience</span>
+                    </div>
+                    <h2 class="section-title">Professional Journey</h2>
+                    <p class="section-subtitle">My professional experience and accomplishments</p>
+                </div>
+
+                <div class="timeline-container">
+                    <div class="timeline-track"></div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <div class="marker-glow"></div>
+                            <div class="marker-core"></div>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">July 2025 - December 2025</div>
+                            <h3 class="timeline-title">MERN Stack Development Intern</h3>
+                            <div class="timeline-company">Banana Softinfotech, Bardoli</div>
+                            <p class="timeline-description">
+                                Completed intensive MERN stack internship focusing on full-stack development and project implementation with modern web technologies.
+                            </p>
+                            <div class="timeline-details">
+                                <h4>Key Responsibilities:</h4>
+                                <ul>
+                                    <li>Built responsive web interfaces using React.js</li>
+                                    <li>Developed REST APIs with Node.js & Express.js</li>
+                                    <li>Managed MongoDB databases and optimized queries</li>
+                                    <li>Implemented CRUD operations and authentication</li>
+                                    <li>Collaborated with team using Git & GitHub</li>
+                                </ul>
+                            </div>
+                            <div class="timeline-tags">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">Node.js</span>
+                                <span class="tech-tag">MongoDB</span>
+                                <span class="tech-tag">Express</span>
+                                <span class="tech-tag">Git</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="certificates-section">
+                    <h3>Certificates & Achievements</h3>
+                    <div class="certificate-grid">
+                        <a href="https://drive.google.com/file/d/1ajWlyUenvSLsiuTq7yjoVGJQotarlJS6/view?usp=sharing" target="_blank" class="certificate-card">
+                            <div class="certificate-icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="certificate-content">
+                                <h4>Internship Certificate</h4>
+                                <p>MERN Stack Development</p>
+                                <span class="certificate-badge">Verified</span>
+                            </div>
+                            <div class="certificate-arrow">
+                                <i class="fas fa-external-link-alt"></i>
+                            </div>
+                        </a>
+
+                        <a href="https://drive.google.com/file/d/1F-EF0mQP-f_5K-fVz-99Gyum3SWILx51/view?usp=sharing" target="_blank" class="certificate-card">
+                            <div class="certificate-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div class="certificate-content">
+                                <h4>Professional Resume</h4>
+                                <p>Latest CV Download</p>
+                                <span class="certificate-badge">PDF</span>
+                            </div>
+                            <div class="certificate-arrow">
+                                <i class="fas fa-download"></i>
+                            </div>
+                        </a>
+
+                        <a href="https://github.com/kunal37x37" target="_blank" class="certificate-card">
+                            <div class="certificate-icon">
+                                <i class="fab fa-github"></i>
+                            </div>
+                            <div class="certificate-content">
+                                <h4>GitHub Profile</h4>
+                                <p>All Projects & Code</p>
+                                <span class="certificate-badge">Active</span>
+                            </div>
+                            <div class="certificate-arrow">
+                                <i class="fas fa-external-link-alt"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="education-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <div class="section-marker">
+                        <span class="marker-number">04</span>
+                        <span class="marker-line"></span>
+                        <span class="marker-label">Education</span>
+                    </div>
+                    <h2 class="section-title">Academic Background</h2>
+                    <p class="section-subtitle">My educational journey and qualifications</p>
+                </div>
+
+                <div class="education-grid">
+                    <div class="education-card">
+                        <div class="education-header">
+                            <div class="education-icon">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div class="education-period">2023 - 2026</div>
+                        </div>
+                        <h3 class="education-title">B.Tech Computer Science & Engineering</h3>
+                        <div class="education-institute">Uka Tarsadia University, Surat</div>
+                        <div class="education-grade">
+                            <span class="grade-label">Current GPA:</span>
+                            <span class="grade-value">8.0-8.5</span>
+                        </div>
+                        <p class="education-description">
+                            Focus on software engineering, algorithms, database systems, and modern web technologies. Active participation in coding competitions and tech events.
+                        </p>
+                        <div class="education-tags">
+                            <span class="edu-tag">Software Engineering</span>
+                            <span class="edu-tag">Web Technologies</span>
+                            <span class="edu-tag">Database Systems</span>
+                            <span class="edu-tag">Algorithms</span>
+                        </div>
+                    </div>
+
+                    <div class="education-card">
+                        <div class="education-header">
+                            <div class="education-icon">
+                                <i class="fas fa-school"></i>
+                            </div>
+                            <div class="education-period">2020 - 2022</div>
+                        </div>
+                        <h3 class="education-title">Senior Secondary (XII), Science</h3>
+                        <div class="education-institute">Sett R.J.J. High School, Valsad</div>
+                        <div class="education-grade">
+                            <span class="grade-label">Percentage:</span>
+                            <span class="grade-value">73.00%</span>
+                        </div>
+                        <p class="education-description">
+                            Science stream with focus on mathematics, physics, and computer science fundamentals. Developed strong analytical and problem-solving skills.
+                        </p>
+                        <div class="education-tags">
+                            <span class="edu-tag">Physics</span>
+                            <span class="edu-tag">Mathematics</span>
+                            <span class="edu-tag">Computer Science</span>
+                            <span class="edu-tag">Chemistry</span>
+                        </div>
+                    </div>
+
+                    <div class="education-card">
+                        <div class="education-header">
+                            <div class="education-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="education-period">2019 - 2020</div>
+                        </div>
+                        <h3 class="education-title">Secondary (X)</h3>
+                        <div class="education-institute">Sett R.J.J. High School, Valsad</div>
+                        <div class="education-grade">
+                            <span class="grade-label">Percentage:</span>
+                            <span class="grade-value">85.66%</span>
+                        </div>
+                        <p class="education-description">
+                            Strong foundation in science and mathematics with excellent academic performance. Developed interest in technology and programming.
+                        </p>
+                        <div class="education-tags">
+                            <span class="edu-tag">Mathematics</span>
+                            <span class="edu-tag">Science</span>
+                            <span class="edu-tag">English</span>
+                            <span class="edu-tag">Academic Excellence</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="projects-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <div class="section-marker">
+                        <span class="marker-number">05</span>
+                        <span class="marker-line"></span>
+                        <span class="marker-label">Projects</span>
+                    </div>
+                    <h2 class="section-title">Featured Creations</h2>
+                    <p class="section-subtitle">Showcase of my technical projects and applications</p>
+                </div>
+
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-visual">
+                            <div class="project-image">
+                                <i class="fas fa-film"></i>
+                            </div>
+                            <div class="project-overlay">
+                                <span>Live Demo</span>
+                            </div>
+                        </div>
+                        <div class="project-details">
+                            <div class="project-header">
+                                <h3 class="project-title">ASP.NET Core Movie Booking</h3>
+                                <span class="project-badge">Full Stack</span>
+                            </div>
+                            <p class="project-description">
+                                Complete movie booking system with seat selection, payment integration, and admin dashboard. Features real-time seat availability and booking history.
+                            </p>
+                            <div class="project-technologies">
+                                <span class="tech-pill">ASP.NET Core</span>
+                                <span class="tech-pill">C#</span>
+                                <span class="tech-pill">SQL Server</span>
+                                <span class="tech-pill">JavaScript</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/kunal37x37/Movie-Booking-System" target="_blank" class="project-link">
+                                    <i class="fab fa-github"></i>
+                                    <span>Source Code</span>
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Live Demo</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-visual">
+                            <div class="project-image">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <div class="project-overlay">
+                                <span>View Project</span>
+                            </div>
+                        </div>
+                        <div class="project-details">
+                            <div class="project-header">
+                                <h3 class="project-title">AutoGarage - MERN Stack</h3>
+                                <span class="project-badge">MERN</span>
+                            </div>
+                            <p class="project-description">
+                                Vehicle service booking platform with user authentication, admin panel, and appointment scheduling. Includes service history and notifications.
+                            </p>
+                            <div class="project-technologies">
+                                <span class="tech-pill">React</span>
+                                <span class="tech-pill">Node.js</span>
+                                <span class="tech-pill">MongoDB</span>
+                                <span class="tech-pill">Express</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/kunal37x37/AutoGarage-Online-Vehicle-Service-Booking-System-MERN-Stack-" target="_blank" class="project-link">
+                                    <i class="fab fa-github"></i>
+                                    <span>Source Code</span>
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Live Demo</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-visual">
+                            <div class="project-image">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <div class="project-overlay">
+                                <span>View Project</span>
+                            </div>
+                        </div>
+                        <div class="project-details">
+                            <div class="project-header">
+                                <h3 class="project-title">AutoGarage - PHP/MySQL</h3>
+                                <span class="project-badge">PHP Stack</span>
+                            </div>
+                            <p class="project-description">
+                                Vehicle service management system with appointment scheduling, customer management, and service tracking. Features admin dashboard.
+                            </p>
+                            <div class="project-technologies">
+                                <span class="tech-pill">PHP</span>
+                                <span class="tech-pill">MySQL</span>
+                                <span class="tech-pill">JavaScript</span>
+                                <span class="tech-pill">Bootstrap</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/kunal37x37/AutoGarage_PHP-JSX-MySQL" target="_blank" class="project-link">
+                                    <i class="fab fa-github"></i>
+                                    <span>Source Code</span>
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Live Demo</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="projects-footer">
+                    <a href="https://github.com/kunal37x37" target="_blank" class="view-all-btn">
+                        <span class="btn-text">View All Projects</span>
+                        <span class="btn-icon">
+                            <i class="fab fa-github"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <div class="section-marker">
+                        <span class="marker-number">06</span>
+                        <span class="marker-line"></span>
+                        <span class="marker-label">Contact</span>
+                    </div>
+                    <h2 class="section-title">Let's Connect</h2>
+                    <p class="section-subtitle">Get in touch for collaborations or opportunities</p>
+                </div>
+
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <div class="info-card">
+                            <h3>Contact Information</h3>
+                            <p class="info-intro">
+                                I'm currently seeking internship opportunities and would love to discuss how I can contribute to your team. Feel free to reach out!
+                            </p>
+
+                            <div class="contact-details">
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-phone-alt"></i>
+                                    </div>
+                                    <div class="contact-content">
+                                        <h4>Phone</h4>
+                                        <p>+91 8780372607</p>
+                                    </div>
+                                </div>
+
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div class="contact-content">
+                                        <h4>Email</h4>
+                                        <p>patelkunal3737@gmail.com</p>
+                                    </div>
+                                </div>
+
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div class="contact-content">
+                                        <h4>Location</h4>
+                                        <p>Valsad, Gujarat, India</p>
+                                    </div>
+                                </div>
+
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-file-alt"></i>
+                                    </div>
+                                    <div class="contact-content">
+                                        <h4>Resume</h4>
+                                        <p>
+                                            <a href="https://drive.google.com/file/d/1F-EF0mQP-f_5K-fVz-99Gyum3SWILx51/view?usp=sharing" target="_blank" class="resume-link">
+                                                Download PDF
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="social-connect">
+                                <h4>Connect Online</h4>
+                                <div class="social-links">
+                                    <a href="https://www.linkedin.com/in/kunal-patel-556760294/" target="_blank" class="social-item">
+                                        <i class="fab fa-linkedin-in"></i>
+                                        <span>LinkedIn</span>
+                                    </a>
+
+                                    <a href="https://github.com/kunal37x37" target="_blank" class="social-item">
+                                        <i class="fab fa-github"></i>
+                                        <span>GitHub</span>
+                                    </a>
+
+                                    <a href="mailto:patelkunal3737@gmail.com" class="social-item">
+                                        <i class="fas fa-envelope"></i>
+                                        <span>Email</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form">
+                        <div class="form-card">
+                            <h3>Send a Message</h3>
+                            <p class="form-intro">I'll get back to you as soon as possible</p>
+
+                            <form id="contactForm">
+                                <div class="form-group">
+                                    <label for="name">Full Name</label>
+                                    <div class="input-container">
+                                        <input type="text" id="name" name="name" required placeholder="Your Name">
+                                        <div class="input-icon">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <div class="input-container">
+                                        <input type="email" id="email" name="email" required placeholder="your@email.com">
+                                        <div class="input-icon">
+                                            <i class="fas fa-envelope"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="subject">Subject</label>
+                                    <div class="input-container">
+                                        <input type="text" id="subject" name="subject" required placeholder="Message Subject">
+                                        <div class="input-icon">
+                                            <i class="fas fa-tag"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <div class="input-container">
+                                        <textarea id="message" name="message" required placeholder="Your message here..."></textarea>
+                                        <div class="input-icon">
+                                            <i class="fas fa-comment"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="submit-button">
+                                    <span class="submit-text">Send Message</span>
+                                    <span class="submit-icon">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </span>
+                                    <span class="submit-loader">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </span>
+                                </button>
+
+                                <div class="form-response" id="formResponse"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="footer-container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <div class="logo-container">
+                            <div class="logo-sphere">
+                                <div class="sphere-inner">GS</div>
+                            </div>
+                            <div class="logo-text">
+                                <span class="logo-primary">Golden</span>
+                                <span class="logo-accent">Sparrow</span>
+                            </div>
+                        </div>
+                        <p class="footer-tagline">
+                            Full Stack Developer & Computer Science Engineer
+                        </p>
+                    </div>
+
+                    <div class="footer-links">
+                        <div class="link-group">
+                            <h4>Navigation</h4>
+                            <ul>
+                                <li><a href="#home">Home</a></li>
+                                <li><a href="#about">About</a></li>
+                                <li><a href="#experience">Experience</a></li>
+                                <li><a href="#education">Education</a></li>
+                                <li><a href="#projects">Projects</a></li>
+                                <li><a href="#contact">Contact</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="link-group">
+                            <h4>Resources</h4>
+                            <ul>
+                                <li><a href="https://github.com/kunal37x37" target="_blank">GitHub</a></li>
+                                <li><a href="https://www.linkedin.com/in/kunal-patel-556760294/" target="_blank">LinkedIn</a></li>
+                                <li><a href="https://drive.google.com/file/d/1F-EF0mQP-f_5K-fVz-99Gyum3SWILx51/view?usp=sharing" target="_blank">Resume</a></li>
+                                <li><a href="https://drive.google.com/file/d/1ajWlyUenvSLsiuTq7yjoVGJQotarlJS6/view?usp=sharing" target="_blank">Certificate</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p class="copyright">
+                        &copy; <span id="currentYear"></span> Kunal Patel (GoldenSparrow). All rights reserved.
+                    </p>
+                    <div class="footer-social">
+                        <a href="https://www.linkedin.com/in/kunal-patel-556760294/" target="_blank" class="social-icon">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://github.com/kunal37x37" target="_blank" class="social-icon">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="mailto:patelkunal3737@gmail.com" class="social-icon">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#home" class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
