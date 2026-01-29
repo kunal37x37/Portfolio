@@ -1,37 +1,28 @@
-// Professional Aurora Galaxy Portfolio JavaScript - MOBILE OPTIMIZED
+// Professional Aurora Galaxy Portfolio JavaScript
 
 // Detect mobile device
 const isMobile = () => {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-        window.innerWidth <= 768;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 };
-
-// Debounce function for performance
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Set current year in footer
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-    // Add mobile class to body
-    if (isMobile()) {
-        document.body.classList.add('mobile');
-        // Reduce background effects on mobile
-        initMobileBackground();
-    } else {
+    // Initialize enhanced background effects
+    initEnhancedStarfield();
+    initFrequentStarfall();
+    initShootingStars();
+    initMeteorShower();
+    initSpaceDebris();
+
+    // Initialize cursor system (only on desktop)
+    if (!isMobile()) {
         document.body.classList.remove('mobile');
-        initEnhancedBackground();
+        initCursorSystem();
+    } else {
+        document.body.classList.add('mobile');
     }
 
     // Initialize theme
@@ -43,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize navigation
     initNavigation();
 
-    // Initialize form submission
+    // Initialize form submission with Formspree
     initFormSubmission();
 
     // Initialize scroll animations
@@ -58,110 +49,110 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize progress bars
     initProgressBars();
 
-    // Initialize rotating cube (simpler on mobile)
+    // Initialize rotating cube
     initRotatingCube();
 
-    // Initialize hover effects (only desktop)
-    if (!isMobile()) {
-        initHoverEffects();
-    }
+    // Initialize hover effects
+    initHoverEffects();
 
-    // Load profile image
-    loadProfileImage();
-
-    // Initialize mobile touch events
-    if (isMobile()) {
-        initMobileTouchEvents();
-    }
-
-    // Performance optimization
-    initPerformanceOptimizations();
-});
-
-// MOBILE BACKGROUND (Simplified)
-function initMobileBackground() {
-    // Create minimal starfield
-    const starfield = document.getElementById('starfield');
-    if (!starfield) return;
-
-    starfield.innerHTML = '';
-    createStarLayer(starfield, 50, 1, 0.8, 'white');
-    createStarLayer(starfield, 30, 2, 0.6, '#e2e8f0');
-
-    // Add mobile-friendly animations
-    document.body.style.overflowX = 'hidden';
-}
-
-// DESKTOP BACKGROUND (Full effects)
-function initEnhancedBackground() {
-    // Initialize enhanced background effects
-    initEnhancedStarfield();
-    initFrequentStarfall();
-    initShootingStars();
-    initMeteorShower();
-    initSpaceDebris();
-
-    // Initialize cursor system (only on desktop)
-    initCursorSystem();
+    // Preload images including profile image
+    preloadImages();
 
     // Initialize parallax effects
-    initParallaxEffects();
-}
+    if (!isMobile()) {
+        initParallaxEffects();
+    }
 
-// PROFILE IMAGE LOADING - OPTIMIZED FOR MOBILE
+    // Load profile image FIRST
+    loadProfileImage();
+});
+
+// PROFILE IMAGE LOADING - FIXED FOR YOUR GOOGLE DRIVE LINK
 function loadProfileImage() {
-    const profileImages = document.querySelectorAll('.profile-image');
-    if (!profileImages.length) return;
+    const profileImage = document.getElementById('profileImage');
+    if (!profileImage) return;
 
-    console.log('Loading profile image...');
+    console.log('Starting to load profile image...');
 
     // Your Google Drive file ID
     const fileId = '1hkWWDzJZy8C501FoFcOufxlaIcYT_Aa9';
 
-    // Use optimized image source for mobile
-    const isMobileDevice = isMobile();
-    const imageSize = isMobileDevice ? 'w500' : 'w1000';
-    const imageSource = `https://drive.google.com/thumbnail?id=${fileId}&sz=${imageSize}`;
+    // Multiple formats to try (in order of preference)
+    const imageSources = [
+        // Method 1: Direct thumbnail with size
+        `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`,
 
-    profileImages.forEach(profileImage => {
-        // Set low-res placeholder first
-        profileImage.style.opacity = '0';
-        profileImage.style.transition = 'opacity 0.5s ease';
+        // Method 2: Export view
+        `https://drive.google.com/uc?export=view&id=${fileId}`,
 
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
+        // Method 3: Preview
+        `https://drive.google.com/file/d/${fileId}/preview`,
 
-        img.onload = function() {
-            profileImage.src = imageSource;
+        // Method 4: Direct download (might work)
+        `https://drive.google.com/uc?export=download&id=${fileId}`,
+
+        // Fallback images
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    ];
+
+    let currentIndex = 0;
+
+    function tryNextSource() {
+        if (currentIndex >= imageSources.length) {
+            console.log('All sources failed, using default');
+            profileImage.src = imageSources[imageSources.length - 1];
             profileImage.classList.add('loaded');
             profileImage.style.opacity = '1';
-        };
+            return;
+        }
 
-        img.onerror = function() {
-            console.log('Failed to load profile image, using fallback');
-            // Use fallback image
-            profileImage.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80';
+        const source = imageSources[currentIndex];
+        console.log(`Trying source ${currentIndex + 1}: ${source}`);
+
+        const testImage = new Image();
+        testImage.crossOrigin = 'anonymous'; // Handle CORS
+
+        testImage.onload = function() {
+            console.log(`✓ Image loaded successfully from source ${currentIndex + 1}`);
+            profileImage.src = source;
             profileImage.classList.add('loaded');
             profileImage.style.opacity = '1';
+            profileImage.style.transition = 'opacity 0.5s ease';
         };
 
-        // Load with timeout
-        setTimeout(() => {
-            img.src = imageSource;
-        }, 100);
+        testImage.onerror = function() {
+            console.log(`✗ Failed to load from source ${currentIndex + 1}`);
+            currentIndex++;
+            setTimeout(tryNextSource, 300);
+        };
 
-        // Set timeout for loading
+        // Set timeout to handle stalled requests
         setTimeout(() => {
-            if (!profileImage.classList.contains('loaded')) {
-                profileImage.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80';
-                profileImage.classList.add('loaded');
-                profileImage.style.opacity = '1';
+            if (!testImage.complete) {
+                console.log(`Timeout for source ${currentIndex + 1}`);
+                currentIndex++;
+                tryNextSource();
             }
-        }, 3000);
-    });
+        }, 2000);
+
+        testImage.src = source;
+    }
+
+    // Start trying sources
+    tryNextSource();
+
+    // Add direct error handler as backup
+    profileImage.onerror = function() {
+        console.log('Direct image error occurred');
+        if (currentIndex < imageSources.length - 1) {
+            currentIndex++;
+            this.src = imageSources[currentIndex];
+        }
+    };
 }
 
-// ENHANCED STARFIELD BACKGROUND (Desktop only)
+// ENHANCED STARFIELD BACKGROUND
 function initEnhancedStarfield() {
     const starfield = document.getElementById('starfield');
     if (!starfield) return;
@@ -170,9 +161,10 @@ function initEnhancedStarfield() {
     starfield.innerHTML = '';
 
     // Create three layers of stars
-    createStarLayer(starfield, 150, 1, 0.8, 'white');
-    createStarLayer(starfield, 100, 2, 0.6, '#e2e8f0');
-    createStarLayer(starfield, 50, 3, 0.4, '#94a3b8');
+    createStarLayer(starfield, 300, 1, 0.8, 'white');
+    createStarLayer(starfield, 200, 2, 0.6, '#e2e8f0');
+    createStarLayer(starfield, 150, 3, 0.4, '#94a3b8');
+    createStarLayer(starfield, 100, 4, 0.3, '#6366f1');
 }
 
 function createStarLayer(container, count, size, opacity, color) {
@@ -197,31 +189,35 @@ function createStarLayer(container, count, size, opacity, color) {
         star.style.borderRadius = '50%';
         star.style.opacity = (Math.random() * 0.5 + opacity).toString();
         star.style.animation = `starTwinkle ${duration}s infinite ${delay}s`;
-        star.style.boxShadow = `0 0 ${size * 2}px ${color}`;
-        star.style.pointerEvents = 'none';
-        star.style.willChange = 'transform, opacity';
+        star.style.boxShadow = `0 0 ${size * 3}px ${color}`;
 
         container.appendChild(star);
     }
+
+    // Add twinkle animation
+    if (!document.querySelector('#starTwinkle')) {
+        const style = document.createElement('style');
+        style.id = 'starTwinkle';
+        style.textContent = `
+            @keyframes starTwinkle {
+                0%, 100% { opacity: ${Math.random() * 0.3 + 0.3}; }
+                50% { opacity: ${Math.random() * 0.8 + 0.5}; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
 }
 
-// FREQUENT STARFALL EFFECT (Desktop only)
+// FREQUENT STARFALL EFFECT
 function initFrequentStarfall() {
-    if (isMobile()) return;
-
     const container = document.getElementById('starfall');
     if (!container) return;
 
-    let animationFrame;
-    let lastTime = 0;
-    const interval = 1000; // 1 second between starfalls
+    function createStarfall() {
+        // Create multiple starfalls at once for dense effect
+        const starCount = Math.floor(Math.random() * 3) + 2;
 
-    function createStarfall(timestamp) {
-        if (!lastTime) lastTime = timestamp;
-        const elapsed = timestamp - lastTime;
-
-        if (elapsed > interval) {
-            // Create starfall
+        for (let i = 0; i < starCount; i++) {
             const starfall = document.createElement('div');
             starfall.className = 'starfall';
 
@@ -230,183 +226,222 @@ function initFrequentStarfall() {
             const startY = -30;
 
             // Random properties
-            const length = Math.random() * 100 + 50;
-            const duration = Math.random() * 1 + 0.5;
+            const length = Math.random() * 150 + 100;
+            const duration = Math.random() * 2 + 1;
+            const delay = Math.random() * 2;
 
+            // Random color with golden bias
+            const colors = ['#ffffff', '#e2e8f0', '#cbd5e1', '#FFD700', '#FFEC8B'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+
+            // Apply styles
             starfall.style.left = `${startX}%`;
             starfall.style.top = `${startY}px`;
-            starfall.style.height = `${length}px`;
-            starfall.style.background = 'linear-gradient(to bottom, transparent, white, transparent)';
-            starfall.style.opacity = (Math.random() * 0.4 + 0.2).toString();
+            starfall.style.background = `linear-gradient(to bottom, transparent, ${color}, transparent)`;
+            starfall.style.opacity = (Math.random() * 0.6 + 0.3).toString();
+            starfall.style.filter = 'blur(1px)';
 
             container.appendChild(starfall);
 
             // Animate
-            const startTime = Date.now();
-
-            function animate() {
-                const currentTime = Date.now();
-                const progress = (currentTime - startTime) / (duration * 1000);
-
-                if (progress < 1) {
-                    starfall.style.transform = `translateY(${progress * length * 2}px)`;
-                    starfall.style.opacity = (0.2 * (1 - progress)).toString();
-                    requestAnimationFrame(animate);
-                } else {
-                    if (starfall.parentNode) {
-                        starfall.parentNode.removeChild(starfall);
-                    }
+            const animation = starfall.animate([{
+                    transform: `translateY(0)`,
+                    opacity: 0
+                },
+                {
+                    transform: `translateY(${length}px)`,
+                    opacity: 1
+                },
+                {
+                    transform: `translateY(${length * 2}px)`,
+                    opacity: 0
                 }
-            }
+            ], {
+                duration: duration * 1000,
+                delay: delay * 1000,
+                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+            });
 
-            requestAnimationFrame(animate);
-            lastTime = timestamp;
+            // Remove after animation
+            animation.onfinish = () => {
+                if (starfall.parentNode) {
+                    starfall.parentNode.removeChild(starfall);
+                }
+            };
         }
-
-        animationFrame = requestAnimationFrame(createStarfall);
     }
 
-    // Start animation
-    animationFrame = requestAnimationFrame(createStarfall);
+    // Create frequent starfall
+    function starfallLoop() {
+        createStarfall();
+        setTimeout(starfallLoop, Math.random() * 1000 + 500); // Every 0.5-1.5 seconds
+    }
 
-    // Cleanup function
-    return () => {
-        if (animationFrame) {
-            cancelAnimationFrame(animationFrame);
-        }
-    };
+    // Start after delay
+    setTimeout(starfallLoop, 1000);
 }
 
-// SHOOTING STARS (Desktop only)
+// SHOOTING STARS
 function initShootingStars() {
-    if (isMobile()) return;
-
     const container = document.getElementById('shootingStars');
     if (!container) return;
 
     function createShootingStar() {
-        const star = document.createElement('div');
-        star.className = 'shooting-star';
+        // Create multiple shooting stars
+        const starCount = Math.floor(Math.random() * 2) + 1;
 
-        // Random starting position
-        const startX = -100;
-        const startY = Math.random() * 60 + 20;
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
 
-        // Random angle and distance
-        const angle = Math.random() * 20 + 10;
-        const distance = Math.random() * 300 + 200;
+            // Random starting position
+            const startX = -150;
+            const startY = Math.random() * 60 + 20;
 
-        star.style.left = `${startX}px`;
-        star.style.top = `${startY}%`;
-        star.style.background = 'linear-gradient(90deg, transparent, white, transparent)';
-        star.style.opacity = (Math.random() * 0.4 + 0.2).toString();
-        star.style.transform = `rotate(${angle}deg)`;
+            // Random angle and distance
+            const angle = Math.random() * 25 + 15;
+            const distance = Math.random() * 400 + 300;
 
-        container.appendChild(star);
+            // Random color with golden bias
+            const colors = ['#ffffff', '#FFD700', '#22d3ee', '#818cf8'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
 
-        // Animate with requestAnimationFrame for better performance
-        const startTime = Date.now();
-        const duration = 1500;
+            // Apply styles
+            star.style.left = `${startX}px`;
+            star.style.top = `${startY}%`;
+            star.style.background = `linear-gradient(90deg, transparent, ${color}, transparent)`;
+            star.style.opacity = (Math.random() * 0.6 + 0.3).toString();
+            star.style.transform = `rotate(${angle}deg)`;
 
-        function animate() {
-            const currentTime = Date.now();
-            const progress = (currentTime - startTime) / duration;
+            container.appendChild(star);
 
-            if (progress < 1) {
-                const currentX = startX + progress * distance * Math.cos(angle * Math.PI / 180);
-                const currentY = startY + progress * distance * Math.sin(angle * Math.PI / 180);
+            // Calculate end position
+            const endX = startX + distance * Math.cos(angle * Math.PI / 180);
+            const endY = startY + distance * Math.sin(angle * Math.PI / 180);
 
-                star.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${angle}deg)`;
-                star.style.opacity = (0.2 * (1 - progress)).toString();
-                requestAnimationFrame(animate);
-            } else {
+            // Animate
+            const animation = star.animate([{
+                    transform: `translate(0, 0) rotate(${angle}deg)`,
+                    opacity: 0
+                },
+                {
+                    transform: `translate(${endX}px, ${endY}px) rotate(${angle}deg)`,
+                    opacity: 1
+                },
+                {
+                    transform: `translate(${endX}px, ${endY}px) rotate(${angle}deg)`,
+                    opacity: 0
+                }
+            ], {
+                duration: Math.random() * 2500 + 1500,
+                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+            });
+
+            // Remove after animation
+            animation.onfinish = () => {
                 if (star.parentNode) {
                     star.parentNode.removeChild(star);
                 }
-            }
+            };
         }
-
-        requestAnimationFrame(animate);
     }
 
-    // Create shooting stars less frequently on mobile
-    const frequency = isMobile() ? 5000 : 3000;
-    setInterval(createShootingStar, frequency);
+    // Create shooting stars frequently
+    function shootingStarsLoop() {
+        createShootingStar();
+        setTimeout(shootingStarsLoop, Math.random() * 3000 + 2000);
+    }
+
+    // Start after delay
+    setTimeout(shootingStarsLoop, 1500);
 }
 
-// METEOR SHOWER (Desktop only)
+// METEOR SHOWER
 function initMeteorShower() {
-    if (isMobile()) return;
-
     const container = document.getElementById('meteorShower');
     if (!container) return;
 
     function createMeteor() {
-        const meteor = document.createElement('div');
-        meteor.className = 'meteor';
+        // Create meteor shower
+        const meteorCount = Math.floor(Math.random() * 3) + 1;
 
-        // Random starting position
-        const startX = Math.random() * 100 + 100;
-        const startY = -20;
+        for (let i = 0; i < meteorCount; i++) {
+            const meteor = document.createElement('div');
+            meteor.className = 'meteor';
 
-        // Random angle and distance
-        const angle = Math.random() * 10 + 5;
-        const distance = Math.random() * 400 + 300;
+            // Random starting position
+            const startX = Math.random() * 100 + 100;
+            const startY = -20;
 
-        meteor.style.left = `${startX}%`;
-        meteor.style.top = `${startY}px`;
-        meteor.style.opacity = (Math.random() * 0.3 + 0.1).toString();
-        meteor.style.transform = `rotate(${angle}deg)`;
+            // Random angle and distance
+            const angle = Math.random() * 15 + 10;
+            const distance = Math.random() * 500 + 400;
 
-        container.appendChild(meteor);
+            // Apply styles
+            meteor.style.left = `${startX}%`;
+            meteor.style.top = `${startY}px`;
+            meteor.style.opacity = (Math.random() * 0.5 + 0.4).toString();
+            meteor.style.transform = `rotate(${angle}deg)`;
 
-        // Animate
-        const startTime = Date.now();
-        const duration = 2000;
+            container.appendChild(meteor);
 
-        function animate() {
-            const currentTime = Date.now();
-            const progress = (currentTime - startTime) / duration;
+            // Calculate end position
+            const endX = startX + distance * Math.cos(angle * Math.PI / 180);
+            const endY = startY + distance * Math.sin(angle * Math.PI / 180);
 
-            if (progress < 1) {
-                const currentX = progress * distance * Math.cos(angle * Math.PI / 180);
-                const currentY = progress * distance * Math.sin(angle * Math.PI / 180);
+            // Animate
+            const animation = meteor.animate([{
+                    transform: `translate(0, 0) rotate(${angle}deg)`,
+                    opacity: 0
+                },
+                {
+                    transform: `translate(${endX}px, ${endY}px) rotate(${angle}deg)`,
+                    opacity: 1
+                },
+                {
+                    transform: `translate(${endX}px, ${endY}px) rotate(${angle}deg)`,
+                    opacity: 0
+                }
+            ], {
+                duration: Math.random() * 3000 + 2000,
+                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+            });
 
-                meteor.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${angle}deg)`;
-                meteor.style.opacity = (0.1 * (1 - progress)).toString();
-                requestAnimationFrame(animate);
-            } else {
+            // Remove after animation
+            animation.onfinish = () => {
                 if (meteor.parentNode) {
                     meteor.parentNode.removeChild(meteor);
                 }
-            }
+            };
         }
-
-        requestAnimationFrame(animate);
     }
 
-    // Create meteors less frequently
-    setInterval(createMeteor, 4000);
+    // Create meteor shower periodically
+    function meteorLoop() {
+        createMeteor();
+        setTimeout(meteorLoop, Math.random() * 5000 + 3000);
+    }
+
+    // Start after delay
+    setTimeout(meteorLoop, 3000);
 }
 
-// SPACE DEBRIS (Desktop only)
+// SPACE DEBRIS
 function initSpaceDebris() {
-    if (isMobile()) return;
-
     const container = document.getElementById('spaceDebris');
-    if (!container) return;
+    if (!container || isMobile()) return;
 
-    const debrisCount = 20;
+    const debrisCount = 30;
 
     for (let i = 0; i < debrisCount; i++) {
         const debris = document.createElement('div');
         debris.className = 'debris';
 
         // Random properties
-        const size = Math.random() * 3 + 1;
+        const size = Math.random() * 5 + 1;
         const x = Math.random() * 100;
         const y = Math.random() * 100;
-        const duration = Math.random() * 20 + 10;
+        const duration = Math.random() * 30 + 20;
         const delay = Math.random() * 10;
 
         // Apply styles
@@ -414,23 +449,46 @@ function initSpaceDebris() {
         debris.style.height = `${size}px`;
         debris.style.left = `${x}%`;
         debris.style.top = `${y}%`;
-        debris.style.opacity = (Math.random() * 0.2 + 0.05).toString();
-        debris.style.background = 'rgba(255, 255, 255, 0.1)';
-        debris.style.borderRadius = '50%';
+        debris.style.opacity = (Math.random() * 0.3 + 0.1).toString();
+
+        // Animation
+        debris.style.animation = `debrisFloat ${duration}s linear infinite ${delay}s`;
 
         container.appendChild(debris);
     }
+
+    // Add debris float animation
+    if (!document.querySelector('#debrisFloat')) {
+        const style = document.createElement('style');
+        style.id = 'debrisFloat';
+        style.textContent = `
+            @keyframes debrisFloat {
+                0% {
+                    transform: translate(0, 0) rotate(0deg);
+                }
+                25% {
+                    transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) rotate(90deg);
+                }
+                50% {
+                    transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) rotate(180deg);
+                }
+                75% {
+                    transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) rotate(270deg);
+                }
+                100% {
+                    transform: translate(0, 0) rotate(360deg);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
 }
 
-// PROFESSIONAL CURSOR SYSTEM (Desktop only)
+// PROFESSIONAL CURSOR SYSTEM
 function initCursorSystem() {
-    if (isMobile()) return;
-
     const cursorTriangle = document.getElementById('cursorTriangle');
     const cursorCircle = document.getElementById('cursorCircle');
     const cursorTrail = document.getElementById('cursorTrail');
-
-    if (!cursorTriangle || !cursorCircle || !cursorTrail) return;
 
     let mouseX = 0;
     let mouseY = 0;
@@ -438,6 +496,7 @@ function initCursorSystem() {
     let circleY = 0;
     let trailX = 0;
     let trailY = 0;
+    let triangleRotate = 0;
 
     // Mouse move event
     document.addEventListener('mousemove', (e) => {
@@ -455,9 +514,15 @@ function initCursorSystem() {
         trailX += (mouseX - trailX) * 0.05;
         trailY += (mouseY - trailY) * 0.05;
 
+        // Rotate triangle based on movement
+        const dx = mouseX - circleX;
+        const dy = mouseY - circleY;
+        triangleRotate = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+
         // Update positions
         cursorTriangle.style.left = mouseX + 'px';
         cursorTriangle.style.top = mouseY + 'px';
+        cursorTriangle.style.transform = `translate(-50%, -50%) rotate(${triangleRotate}deg)`;
 
         cursorCircle.style.left = circleX + 'px';
         cursorCircle.style.top = circleY + 'px';
@@ -467,6 +532,49 @@ function initCursorSystem() {
 
         requestAnimationFrame(animateCursor);
     }
+
+    // Hover effects
+    const hoverElements = document.querySelectorAll(
+        'a, button, .cta-button, .project-card, .education-card, .feature-card, ' +
+        '.social-item, .tech-icon, .certificate-card, .nav-item, .view-all-btn, .submit-button'
+    );
+
+    hoverElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            cursorTriangle.style.borderBottomColor = 'var(--primary)';
+            cursorTriangle.style.transform = `translate(-50%, -50%) rotate(${triangleRotate}deg) scale(1.3)`;
+            cursorCircle.style.width = '60px';
+            cursorCircle.style.height = '60px';
+            cursorCircle.style.borderColor = 'var(--primary)';
+            cursorTrail.style.opacity = '0.6';
+            cursorTrail.style.width = '30px';
+            cursorTrail.style.height = '30px';
+        });
+
+        element.addEventListener('mouseleave', () => {
+            cursorTriangle.style.borderBottomColor = 'var(--golden-primary)';
+            cursorTriangle.style.transform = `translate(-50%, -50%) rotate(${triangleRotate}deg) scale(1)`;
+            cursorCircle.style.width = '40px';
+            cursorCircle.style.height = '40px';
+            cursorCircle.style.borderColor = 'var(--accent)';
+            cursorTrail.style.opacity = '0.3';
+            cursorTrail.style.width = '20px';
+            cursorTrail.style.height = '20px';
+        });
+    });
+
+    // Click effect
+    document.addEventListener('mousedown', () => {
+        cursorTriangle.style.transform = `translate(-50%, -50%) rotate(${triangleRotate}deg) scale(0.8)`;
+        cursorCircle.style.width = '35px';
+        cursorCircle.style.height = '35px';
+    });
+
+    document.addEventListener('mouseup', () => {
+        cursorTriangle.style.transform = `translate(-50%, -50%) rotate(${triangleRotate}deg) scale(1)`;
+        cursorCircle.style.width = '40px';
+        cursorCircle.style.height = '40px';
+    });
 
     // Start animation
     animateCursor();
@@ -533,7 +641,8 @@ function initTypewriterEffect() {
         'Full Stack Developer',
         'GoldenSparrow',
         'Problem Solver',
-        'Tech Enthusiast'
+        'Tech Enthusiast',
+        'Creative Thinker'
     ];
 
     let textIndex = 0;
@@ -557,7 +666,7 @@ function initTypewriterEffect() {
         }
 
         // Typing speed
-        let typeSpeed = isMobile() ? 150 : 100;
+        let typeSpeed = 100;
 
         if (isDeleting) {
             typeSpeed /= 2;
@@ -590,7 +699,7 @@ function initTypewriterEffect() {
     setTimeout(type, 1000);
 }
 
-// NAVIGATION - MOBILE OPTIMIZED
+// NAVIGATION
 function initNavigation() {
     const navHamburger = document.querySelector('.nav-hamburger');
     const navMenu = document.querySelector('.nav-menu');
@@ -598,8 +707,7 @@ function initNavigation() {
 
     // Mobile menu toggle
     if (navHamburger && navMenu) {
-        navHamburger.addEventListener('click', (e) => {
-            e.stopPropagation();
+        navHamburger.addEventListener('click', () => {
             navHamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
             document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
@@ -607,18 +715,7 @@ function initNavigation() {
 
         // Close menu when clicking outside
         document.addEventListener('click', (e) => {
-            if (navMenu.classList.contains('active') &&
-                !navHamburger.contains(e.target) &&
-                !navMenu.contains(e.target)) {
-                navHamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-
-        // Close menu on ESC key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+            if (!navHamburger.contains(e.target) && !navMenu.contains(e.target)) {
                 navHamburger.classList.remove('active');
                 navMenu.classList.remove('active');
                 document.body.style.overflow = '';
@@ -627,7 +724,7 @@ function initNavigation() {
     }
 
     // Update active nav link on scroll
-    const updateActiveNav = debounce(() => {
+    window.addEventListener('scroll', () => {
         const scrollPos = window.scrollY + 100;
 
         navItems.forEach(link => {
@@ -648,45 +745,28 @@ function initNavigation() {
         const header = document.querySelector('.cosmic-nav');
         if (header) {
             if (window.scrollY > 50) {
-                header.style.background = isMobile() ?
-                    'rgba(5, 5, 17, 0.95)' :
-                    'rgba(5, 5, 17, 0.98)';
-                header.style.backdropFilter = 'blur(10px)';
+                header.style.background = 'rgba(5, 5, 17, 0.98)';
+                header.style.backdropFilter = 'blur(30px)';
             } else {
                 header.style.background = 'rgba(5, 5, 17, 0.9)';
-                header.style.backdropFilter = 'blur(5px)';
+                header.style.backdropFilter = 'blur(20px)';
             }
         }
-    }, 100);
+    });
 
-    window.addEventListener('scroll', updateActiveNav);
-
-    // Close menu when clicking on a link (mobile)
+    // Close menu when clicking on a link
     navItems.forEach(link => {
         link.addEventListener('click', () => {
-            if (navHamburger && navMenu && isMobile()) {
+            if (navHamburger && navMenu) {
                 navHamburger.classList.remove('active');
                 navMenu.classList.remove('active');
                 document.body.style.overflow = '';
-
-                // Smooth scroll to section
-                const targetId = link.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    const headerHeight = document.querySelector('.cosmic-nav').offsetHeight;
-                    const targetPosition = targetElement.offsetTop - headerHeight;
-
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
             }
         });
     });
 }
 
-// FORM SUBMISSION
+// FORM SUBMISSION WITH FORMSPREE
 function initFormSubmission() {
     const contactForm = document.getElementById('contactForm');
     if (!contactForm) return;
@@ -768,6 +848,7 @@ async function sendEmailFormspree(formData) {
         const result = await response.json();
 
         if (response.ok) {
+            console.log('Email sent successfully via Formspree');
             return result;
         } else {
             throw new Error(result.error || 'Failed to send email');
@@ -776,15 +857,23 @@ async function sendEmailFormspree(formData) {
     } catch (error) {
         console.error('Formspree Error:', error);
 
-        // Fallback for demo
-        return { success: true, message: 'Message sent successfully!' };
+        // Fallback: Simple mailto link
+        const mailtoLink = `mailto:patelkunal3737@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
+            `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+        )}`;
+        
+        // For demo - open email client
+        window.open(mailtoLink, '_blank');
+        
+        // Return success for demo purposes
+        return { success: true, message: 'Opening email client...' };
     }
 }
 
-// SCROLL ANIMATIONS - MOBILE OPTIMIZED
+// SCROLL ANIMATIONS
 function initScrollAnimations() {
     const observerOptions = {
-        threshold: isMobile() ? 0.05 : 0.1,
+        threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
 
@@ -792,10 +881,6 @@ function initScrollAnimations() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-in');
-                // Unobserve after animation to improve performance
-                if (isMobile()) {
-                    observer.unobserve(entry.target);
-                }
             }
         });
     }, observerOptions);
@@ -803,15 +888,13 @@ function initScrollAnimations() {
     // Observe elements
     const animatedElements = document.querySelectorAll(
         '.hero-content, .hero-visual, .about-intro, .about-features, .stats-container, ' +
-        '.project-card, .timeline-item, .education-card, ' +
+        '.skill-category, .project-card, .timeline-item, .education-card, ' +
         '.info-card, .form-card, .certificate-card'
     );
 
     animatedElements.forEach((el, index) => {
-        if (!isMobile() || index < 10) { // Limit on mobile
-            el.classList.add(`delay-${(index % 4) + 1}`);
-            observer.observe(el);
-        }
+        el.classList.add(`delay-${(index % 4) + 1}`);
+        observer.observe(el);
     });
 }
 
@@ -820,15 +903,13 @@ function initBackToTop() {
     const backToTop = document.getElementById('backToTop');
     if (!backToTop) return;
 
-    const updateBackToTop = debounce(() => {
+    window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
             backToTop.classList.add('visible');
         } else {
             backToTop.classList.remove('visible');
         }
-    }, 100);
-
-    window.addEventListener('scroll', updateBackToTop);
+    });
 
     // Smooth scroll to top
     backToTop.addEventListener('click', (e) => {
@@ -840,7 +921,7 @@ function initBackToTop() {
     });
 }
 
-// SMOOTH SCROLLING - MOBILE FRIENDLY
+// SMOOTH SCROLLING
 function initSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -851,7 +932,7 @@ function initSmoothScrolling() {
 
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
-                const headerHeight = isMobile() ? 70 : document.querySelector('.cosmic-nav').offsetHeight;
+                const headerHeight = document.querySelector('.cosmic-nav').offsetHeight;
                 const targetPosition = targetElement.offsetTop - headerHeight;
 
                 window.scrollTo({
@@ -869,7 +950,7 @@ function initProgressBars() {
 
     progressCircles.forEach(circle => {
         const value = circle.getAttribute('data-value') || 88;
-        const circumference = 2 * Math.PI * 45;
+        const circumference = 2 * Math.PI * 45; // Radius is 45
         const offset = circumference * (1 - value / 100);
 
         const progressFill = circle.querySelector('.progress-fill');
@@ -877,21 +958,46 @@ function initProgressBars() {
             progressFill.style.strokeDasharray = `${circumference} ${circumference}`;
             progressFill.style.strokeDashoffset = offset;
         }
+
+        // Create gradient for progress circle
+        const svg = circle.querySelector('svg');
+        if (svg) {
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+            gradient.setAttribute('id', `gradient-${Math.random().toString(36).substr(2, 9)}`);
+            gradient.setAttribute('x1', '0%');
+            gradient.setAttribute('y1', '0%');
+            gradient.setAttribute('x2', '100%');
+            gradient.setAttribute('y2', '100%');
+
+            const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+            stop1.setAttribute('offset', '0%');
+            stop1.setAttribute('stop-color', '#FFD700');
+
+            const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+            stop2.setAttribute('offset', '100%');
+            stop2.setAttribute('stop-color', '#6366f1');
+
+            gradient.appendChild(stop1);
+            gradient.appendChild(stop2);
+            defs.appendChild(gradient);
+            svg.appendChild(defs);
+
+            if (progressFill) {
+                progressFill.style.stroke = `url(#${gradient.id})`;
+            }
+        }
     });
 }
 
-// ROTATING CUBE INTERACTION - SIMPLIFIED FOR MOBILE
+// ROTATING CUBE INTERACTION
 function initRotatingCube() {
     const rotatingCube = document.querySelector('.rotating-cube');
     if (!rotatingCube) return;
 
-    // Stop animation on mobile for better performance
-    if (isMobile()) {
-        rotatingCube.style.animation = 'none';
-        return;
-    }
-
     let isHovering = false;
+    let rotationSpeed = 1;
+    let currentRotation = 0;
 
     // Mouse enter/leave events
     rotatingCube.addEventListener('mouseenter', () => {
@@ -903,30 +1009,72 @@ function initRotatingCube() {
         isHovering = false;
         rotatingCube.style.animationPlayState = 'running';
     });
+
+    // Mouse move for manual rotation
+    rotatingCube.addEventListener('mousemove', (e) => {
+        if (!isHovering) return;
+
+        const rect = rotatingCube.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const deltaX = e.clientX - centerX;
+        const deltaY = e.clientY - centerY;
+
+        // Calculate rotation based on mouse position
+        const rotationX = (deltaY / rect.height) * 180;
+        const rotationY = (deltaX / rect.width) * 180;
+
+        rotatingCube.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+    });
 }
 
-// HOVER EFFECTS (Desktop only)
+// HOVER EFFECTS
 function initHoverEffects() {
-    if (isMobile()) return;
-
     // Add hover effect to cards
-    const cards = document.querySelectorAll('.feature-card, .project-card, .education-card, .certificate-card');
+    const cards = document.querySelectorAll('.feature-card, .project-card, .education-card, .certificate-card, .info-card, .form-card');
 
     cards.forEach(card => {
         card.addEventListener('mouseenter', () => {
-            card.style.transform = 'translateY(-5px)';
+            card.style.transform = 'translateY(-10px)';
+            card.style.boxShadow = '0 25px 60px rgba(0, 0, 0, 0.4)';
         });
 
         card.addEventListener('mouseleave', () => {
             card.style.transform = 'translateY(0)';
+            card.style.boxShadow = 'none';
+        });
+    });
+
+    // Add glow effect to interactive elements
+    const interactiveElements = document.querySelectorAll('.tech-icon, .social-item, .project-link');
+
+    interactiveElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            element.style.filter = 'drop-shadow(0 0 10px rgba(255, 215, 0, 0.5))';
+        });
+
+        element.addEventListener('mouseleave', () => {
+            element.style.filter = 'none';
         });
     });
 }
 
-// PARALLAX EFFECTS (Desktop only)
-function initParallaxEffects() {
-    if (isMobile()) return;
+// PRELOAD IMAGES
+function preloadImages() {
+    const images = [
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    ];
 
+    images.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
+}
+
+// PARALLAX EFFECTS
+function initParallaxEffects() {
     const auroraLayers = document.querySelectorAll('.aurora-layer');
     const nebulaClouds = document.querySelectorAll('.nebula-cloud');
 
@@ -936,84 +1084,136 @@ function initParallaxEffects() {
 
         // Parallax for aurora layers
         auroraLayers.forEach((layer, index) => {
-            const speed = (index + 1) * 0.5;
-            const x = (mouseX - 0.5) * 30 * speed;
-            const y = (mouseY - 0.5) * 30 * speed;
+            const speed = (index + 1) * 0.8;
+            const x = (mouseX - 0.5) * 50 * speed;
+            const y = (mouseY - 0.5) * 50 * speed;
 
             layer.style.transform = `translate(${x}px, ${y}px)`;
         });
-    });
-}
 
-// MOBILE TOUCH EVENTS
-function initMobileTouchEvents() {
-    // Add touch feedback for buttons
-    const buttons = document.querySelectorAll('a, button, .cta-button');
+        // Parallax for nebula clouds
+        nebulaClouds.forEach((cloud, index) => {
+            const speed = (index + 1) * 0.5;
+            const x = (mouseX - 0.5) * 100 * speed;
+            const y = (mouseY - 0.5) * 100 * speed;
 
-    buttons.forEach(button => {
-        button.addEventListener('touchstart', () => {
-            button.style.transform = 'scale(0.95)';
-        });
-
-        button.addEventListener('touchend', () => {
-            button.style.transform = 'scale(1)';
+            cloud.style.transform = `translate(${x}px, ${y}px)`;
         });
     });
-
-    // Prevent zoom on double tap
-    let lastTouchEnd = 0;
-    document.addEventListener('touchend', (e) => {
-        const now = Date.now();
-        if (now - lastTouchEnd <= 300) {
-            e.preventDefault();
-        }
-        lastTouchEnd = now;
-    }, false);
-}
-
-// PERFORMANCE OPTIMIZATIONS
-function initPerformanceOptimizations() {
-    // Use passive listeners for better scrolling performance
-    const options = { passive: true };
-
-    // Disable heavy animations when page is not visible
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            // Pause heavy animations
-            document.body.classList.add('page-hidden');
-        } else {
-            document.body.classList.remove('page-hidden');
-        }
-    });
-
-    // Optimize for mobile devices
-    if (isMobile()) {
-        // Reduce animation complexity
-        document.documentElement.style.setProperty('--transition-normal', '200ms ease');
-
-        // Disable some effects on low-end devices
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-            // Further reduce effects
-            const effects = document.querySelectorAll('.aurora-layer, .nebula-cloud, .visual-trail');
-            effects.forEach(effect => {
-                effect.style.display = 'none';
-            });
-        }
-    }
 }
 
 // WINDOW RESIZE HANDLER
-const handleResize = debounce(() => {
-    // Reinitialize if switching between mobile/desktop
-    const wasMobile = document.body.classList.contains('mobile');
-    const nowMobile = isMobile();
+window.addEventListener('resize', () => {
+    // Reinitialize effects on resize
+    initEnhancedStarfield();
 
-    if (wasMobile !== nowMobile) {
-        location.reload(); // Reload for clean switch
+    // Update cursor system if on desktop
+    if (!isMobile()) {
+        initCursorSystem();
     }
-}, 250);
+});
 
-window.addEventListener('resize', handleResize);
+// PERFORMANCE OPTIMIZATION
+let lastScrollTime = 0;
+const scrollInterval = 150;
+
+window.addEventListener('scroll', () => {
+    const now = Date.now();
+
+    if (now - lastScrollTime > scrollInterval) {
+        lastScrollTime = now;
+
+        // Update scroll-based effects
+        updateScrollEffects();
+    }
+});
+
+function updateScrollEffects() {
+    // Update progress bars when in view
+    const progressSection = document.querySelector('.about-section');
+    if (progressSection) {
+        const rect = progressSection.getBoundingClientRect();
+        const isInView = rect.top < window.innerHeight && rect.bottom >= 0;
+
+        if (isInView) {
+            initProgressBars();
+        }
+    }
+}
+
+// Initialize scroll effects
+updateScrollEffects();
+
+// Add keyboard navigation
+document.addEventListener('keydown', (e) => {
+    // Escape key closes mobile menu
+    if (e.key === 'Escape') {
+        const navMenu = document.querySelector('.nav-menu');
+        const navHamburger = document.querySelector('.nav-hamburger');
+
+        if (navMenu && navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            navHamburger.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Arrow keys for navigation
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+
+        const currentSection = getCurrentSection();
+        const sections = ['home', 'about', 'experience', 'education', 'projects', 'contact'];
+        const currentIndex = sections.indexOf(currentSection);
+
+        let nextIndex;
+        if (e.key === 'ArrowDown') {
+            nextIndex = currentIndex < sections.length - 1 ? currentIndex + 1 : 0;
+        } else {
+            nextIndex = currentIndex > 0 ? currentIndex - 1 : sections.length - 1;
+        }
+
+        const nextSection = document.getElementById(sections[nextIndex]);
+        if (nextSection) {
+            const headerHeight = document.querySelector('.cosmic-nav').offsetHeight;
+            const targetPosition = nextSection.offsetTop - headerHeight;
+
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+});
+
+function getCurrentSection() {
+    const sections = ['home', 'about', 'experience', 'education', 'projects', 'contact'];
+    const scrollPos = window.scrollY + 100;
+
+    for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+            const sectionTop = element.offsetTop;
+            const sectionHeight = element.offsetHeight;
+
+            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                return section;
+            }
+        }
+    }
+
+    return 'home';
+}
+
+// Add loading state for better UX
+window.addEventListener('load', () => {
+    // Remove any loading indicators if present
+    const loadingElements = document.querySelectorAll('.loading-indicator');
+    loadingElements.forEach(el => el.remove());
+
+    // Add loaded class to body for transition effects
+    document.body.classList.add('loaded');
+});
 
 // Initialize performance monitoring
 function monitorPerformance() {
@@ -1027,13 +1227,3 @@ function monitorPerformance() {
 
 // Call performance monitoring
 setTimeout(monitorPerformance, 1000);
-
-// Add loaded class to body for transition effects
-window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-
-    // Remove loading state
-    setTimeout(() => {
-        document.body.classList.remove('loading');
-    }, 500);
-});
