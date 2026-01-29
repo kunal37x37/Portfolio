@@ -1,494 +1,501 @@
-// Professional Aurora Galaxy Portfolio JavaScript
+// Professional Aurora Galaxy Portfolio JavaScript - MOBILE OPTIMIZED
 
 // Detect mobile device
 const isMobile = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 };
 
+// Optimize for mobile first
+if (isMobile()) {
+    // Remove heavy elements immediately
+    document.addEventListener('DOMContentLoaded', function() {
+        const heavyElements = [
+            '.aurora-layer',
+            '.nebula-cloud',
+            '.space-debris',
+            '.cursor-triangle',
+            '.cursor-circle',
+            '.cursor-trail',
+            '.shooting-stars',
+            '.meteor-shower'
+        ];
+
+        heavyElements.forEach(selector => {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(el => {
+                if (el.parentNode) {
+                    el.parentNode.removeChild(el);
+                }
+            });
+        });
+    });
+}
+
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Loaded - Mobile:', isMobile());
+
     // Set current year in footer
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-    // Initialize enhanced background effects
-    initEnhancedStarfield();
-    initFrequentStarfall();
-    initShootingStars();
-    initMeteorShower();
-    initSpaceDebris();
-
-    // Initialize cursor system (only on desktop)
-    if (!isMobile()) {
-        document.body.classList.remove('mobile');
-        initCursorSystem();
+    // Mobile optimizations
+    if (isMobile()) {
+        initMobileOptimizations();
     } else {
-        document.body.classList.add('mobile');
-    }
-
-    // Initialize theme
-    initTheme();
-
-    // Initialize typing effect
-    initTypewriterEffect();
-
-    // Initialize navigation
-    initNavigation();
-
-    // Initialize form submission with Formspree
-    initFormSubmission();
-
-    // Initialize scroll animations
-    initScrollAnimations();
-
-    // Initialize back to top button
-    initBackToTop();
-
-    // Initialize smooth scrolling
-    initSmoothScrolling();
-
-    // Initialize progress bars
-    initProgressBars();
-
-    // Initialize rotating cube
-    initRotatingCube();
-
-    // Initialize hover effects
-    initHoverEffects();
-
-    // Preload images including profile image
-    preloadImages();
-
-    // Initialize parallax effects
-    if (!isMobile()) {
+        // Desktop only effects
+        initEnhancedStarfield();
+        initFrequentStarfall();
+        initShootingStars();
+        initMeteorShower();
+        initSpaceDebris();
+        initCursorSystem();
         initParallaxEffects();
     }
 
-    // Load profile image FIRST
+    // Common features for both mobile and desktop
+    initTheme();
+    initTypewriterEffect();
+    initNavigation();
+    initFormSubmission();
+    initScrollAnimations();
+    initBackToTop();
+    initSmoothScrolling();
+    initProgressBars();
+    initRotatingCube();
+    initHoverEffects();
     loadProfileImage();
+
+    // Mobile specific optimizations
+    if (isMobile()) {
+        initTouchOptimizations();
+        simplifyAnimations();
+    }
 });
 
-// PROFILE IMAGE LOADING - FIXED FOR YOUR GOOGLE DRIVE LINK
-function loadProfileImage() {
-    const profileImage = document.getElementById('profileImage');
-    if (!profileImage) return;
+// MOBILE OPTIMIZATIONS
+function initMobileOptimizations() {
+    console.log('Initializing mobile optimizations');
 
-    console.log('Starting to load profile image...');
+    // Add mobile class to body
+    document.body.classList.add('mobile');
 
-    // Your Google Drive file ID
-    const fileId = '1hkWWDzJZy8C501FoFcOufxlaIcYT_Aa9';
+    // Disable complex animations
+    document.querySelectorAll('.aurora-layer, .nebula-cloud').forEach(el => {
+        el.style.animationPlayState = 'paused';
+        el.style.opacity = '0.1';
+    });
 
-    // Multiple formats to try (in order of preference)
-    const imageSources = [
-        // Method 1: Direct thumbnail with size
-        `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`,
-
-        // Method 2: Export view
-        `https://drive.google.com/uc?export=view&id=${fileId}`,
-
-        // Method 3: Preview
-        `https://drive.google.com/file/d/${fileId}/preview`,
-
-        // Method 4: Direct download (might work)
-        `https://drive.google.com/uc?export=download&id=${fileId}`,
-
-        // Fallback images
-        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    ];
-
-    let currentIndex = 0;
-
-    function tryNextSource() {
-        if (currentIndex >= imageSources.length) {
-            console.log('All sources failed, using default');
-            profileImage.src = imageSources[imageSources.length - 1];
-            profileImage.classList.add('loaded');
-            profileImage.style.opacity = '1';
-            return;
-        }
-
-        const source = imageSources[currentIndex];
-        console.log(`Trying source ${currentIndex + 1}: ${source}`);
-
-        const testImage = new Image();
-        testImage.crossOrigin = 'anonymous'; // Handle CORS
-
-        testImage.onload = function() {
-            console.log(`✓ Image loaded successfully from source ${currentIndex + 1}`);
-            profileImage.src = source;
-            profileImage.classList.add('loaded');
-            profileImage.style.opacity = '1';
-            profileImage.style.transition = 'opacity 0.5s ease';
-        };
-
-        testImage.onerror = function() {
-            console.log(`✗ Failed to load from source ${currentIndex + 1}`);
-            currentIndex++;
-            setTimeout(tryNextSource, 300);
-        };
-
-        // Set timeout to handle stalled requests
-        setTimeout(() => {
-            if (!testImage.complete) {
-                console.log(`Timeout for source ${currentIndex + 1}`);
-                currentIndex++;
-                tryNextSource();
-            }
-        }, 2000);
-
-        testImage.src = source;
+    // Simplify cube animation
+    const cube = document.querySelector('.rotating-cube');
+    if (cube) {
+        cube.style.animationDuration = '30s';
+        cube.style.animationTimingFunction = 'linear';
     }
 
-    // Start trying sources
-    tryNextSource();
+    // Reduce background effects
+    const starfield = document.getElementById('starfield');
+    if (starfield) {
+        starfield.style.backgroundImage = 'none';
+        createSimpleStarfield();
+    }
 
-    // Add direct error handler as backup
-    profileImage.onerror = function() {
-        console.log('Direct image error occurred');
-        if (currentIndex < imageSources.length - 1) {
-            currentIndex++;
-            this.src = imageSources[currentIndex];
-        }
-    };
+    // Remove cursor elements
+    ['cursorTriangle', 'cursorCircle', 'cursorTrail'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.remove();
+    });
+
+    // Optimize images
+    optimizeImages();
 }
 
-// ENHANCED STARFIELD BACKGROUND
+function createSimpleStarfield() {
+    if (!isMobile()) return;
+
+    const starfield = document.getElementById('starfield');
+    if (!starfield) return;
+
+    // Simple star pattern for mobile
+    starfield.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.3) 1px, transparent 2px),
+            radial-gradient(1px 1px at 30% 40%, rgba(255,255,255,0.2) 1px, transparent 2px),
+            radial-gradient(1px 1px at 50% 60%, rgba(255,255,255,0.1) 1px, transparent 2px);
+        background-size: 200px 200px;
+        pointer-events: none;
+        z-index: -2;
+    `;
+}
+
+function initTouchOptimizations() {
+    console.log('Initializing touch optimizations');
+
+    // Touch-friendly buttons
+    const buttons = document.querySelectorAll('a, button, .cta-button, .nav-item');
+    buttons.forEach(btn => {
+        btn.style.minHeight = '44px';
+        btn.style.minWidth = '44px';
+
+        btn.addEventListener('touchstart', function(e) {
+            this.style.transform = 'scale(0.97)';
+            this.style.transition = 'transform 100ms ease';
+        });
+
+        btn.addEventListener('touchend', function() {
+            this.style.transform = 'scale(1)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 100);
+        });
+
+        btn.addEventListener('touchcancel', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+
+    // Prevent double-tap zoom
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event) {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+
+    // Improve scroll performance
+    document.addEventListener('touchmove', function(e) {
+        // Allow native scrolling
+    }, { passive: true });
+}
+
+function simplifyAnimations() {
+    // Reduce animation complexity
+    const animatedElements = document.querySelectorAll('*[style*="animation"], *[class*="animate"]');
+    animatedElements.forEach(el => {
+        if (el.style.animationDuration) {
+            const duration = parseFloat(el.style.animationDuration);
+            if (duration < 1) {
+                el.style.animationDuration = (duration * 2) + 's';
+            }
+        }
+    });
+
+    // Simplify cube faces
+    const cubeFaces = document.querySelectorAll('.cube-face');
+    cubeFaces.forEach(face => {
+        face.style.backdropFilter = 'none';
+        face.style.background = 'rgba(255,255,255,0.03)';
+    });
+}
+
+function optimizeImages() {
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+        // Add lazy loading
+        img.loading = 'lazy';
+
+        // Reduce quality hint for mobile
+        if (img.complete) {
+            img.style.imageRendering = 'optimizeQuality';
+        }
+    });
+}
+
+// ENHANCED STARFIELD BACKGROUND - OPTIMIZED
 function initEnhancedStarfield() {
+    if (isMobile()) return; // Skip on mobile
+
     const starfield = document.getElementById('starfield');
     if (!starfield) return;
 
     // Clear existing stars
     starfield.innerHTML = '';
 
-    // Create three layers of stars
-    createStarLayer(starfield, 300, 1, 0.8, 'white');
-    createStarLayer(starfield, 200, 2, 0.6, '#e2e8f0');
-    createStarLayer(starfield, 150, 3, 0.4, '#94a3b8');
-    createStarLayer(starfield, 100, 4, 0.3, '#6366f1');
-}
+    // Reduced star count for performance
+    const starCount = 200;
 
-function createStarLayer(container, count, size, opacity, color) {
-    for (let i = 0; i < count; i++) {
+    // Use CSS text for better performance
+    for (let i = 0; i < starCount; i++) {
         const star = document.createElement('div');
-
-        // Random position
         const x = Math.random() * 100;
         const y = Math.random() * 100;
-
-        // Random animation properties
+        const size = Math.random() * 2 + 1;
+        const opacity = Math.random() * 0.7 + 0.3;
         const duration = Math.random() * 10 + 5;
         const delay = Math.random() * 10;
 
-        // Apply styles
-        star.style.position = 'absolute';
-        star.style.left = `${x}%`;
-        star.style.top = `${y}%`;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.backgroundColor = color;
-        star.style.borderRadius = '50%';
-        star.style.opacity = (Math.random() * 0.5 + opacity).toString();
-        star.style.animation = `starTwinkle ${duration}s infinite ${delay}s`;
-        star.style.boxShadow = `0 0 ${size * 3}px ${color}`;
-
-        container.appendChild(star);
-    }
-
-    // Add twinkle animation
-    if (!document.querySelector('#starTwinkle')) {
-        const style = document.createElement('style');
-        style.id = 'starTwinkle';
-        style.textContent = `
-            @keyframes starTwinkle {
-                0%, 100% { opacity: ${Math.random() * 0.3 + 0.3}; }
-                50% { opacity: ${Math.random() * 0.8 + 0.5}; }
-            }
+        star.style.cssText = `
+            position: absolute;
+            left: ${x}%;
+            top: ${y}%;
+            width: ${size}px;
+            height: ${size}px;
+            background: white;
+            border-radius: 50%;
+            opacity: ${opacity};
+            animation: starTwinkle ${duration}s infinite ${delay}s;
+            pointer-events: none;
+            will-change: opacity;
         `;
-        document.head.appendChild(style);
+
+        starfield.appendChild(star);
     }
 }
 
-// FREQUENT STARFALL EFFECT
+// FREQUENT STARFALL EFFECT - OPTIMIZED
 function initFrequentStarfall() {
+    if (isMobile()) return;
+
     const container = document.getElementById('starfall');
     if (!container) return;
 
-    function createStarfall() {
-        // Create multiple starfalls at once for dense effect
-        const starCount = Math.floor(Math.random() * 3) + 2;
+    let animationFrame;
+    let lastTime = 0;
+    const interval = 1000; // 1 second
 
-        for (let i = 0; i < starCount; i++) {
+    function createStarfall(timestamp) {
+        if (!lastTime) lastTime = timestamp;
+        const elapsed = timestamp - lastTime;
+
+        if (elapsed > interval) {
+            lastTime = timestamp;
+
             const starfall = document.createElement('div');
-            starfall.className = 'starfall';
-
-            // Random starting position
             const startX = Math.random() * 100;
-            const startY = -30;
+            const length = Math.random() * 100 + 50;
+            const duration = Math.random() * 1.5 + 0.5;
 
-            // Random properties
-            const length = Math.random() * 150 + 100;
-            const duration = Math.random() * 2 + 1;
-            const delay = Math.random() * 2;
-
-            // Random color with golden bias
-            const colors = ['#ffffff', '#e2e8f0', '#cbd5e1', '#FFD700', '#FFEC8B'];
-            const color = colors[Math.floor(Math.random() * colors.length)];
-
-            // Apply styles
-            starfall.style.left = `${startX}%`;
-            starfall.style.top = `${startY}px`;
-            starfall.style.background = `linear-gradient(to bottom, transparent, ${color}, transparent)`;
-            starfall.style.opacity = (Math.random() * 0.6 + 0.3).toString();
-            starfall.style.filter = 'blur(1px)';
+            starfall.style.cssText = `
+                position: absolute;
+                left: ${startX}%;
+                top: -30px;
+                width: 1px;
+                height: ${length}px;
+                background: linear-gradient(to bottom, transparent, white, transparent);
+                animation: starfall ${duration}s linear forwards;
+                pointer-events: none;
+                will-change: transform;
+            `;
 
             container.appendChild(starfall);
 
-            // Animate
-            const animation = starfall.animate([{
-                    transform: `translateY(0)`,
-                    opacity: 0
-                },
-                {
-                    transform: `translateY(${length}px)`,
-                    opacity: 1
-                },
-                {
-                    transform: `translateY(${length * 2}px)`,
-                    opacity: 0
+            setTimeout(() => {
+                if (starfall.parentNode === container) {
+                    container.removeChild(starfall);
                 }
-            ], {
-                duration: duration * 1000,
-                delay: delay * 1000,
-                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
-            });
-
-            // Remove after animation
-            animation.onfinish = () => {
-                if (starfall.parentNode) {
-                    starfall.parentNode.removeChild(starfall);
-                }
-            };
+            }, duration * 1000);
         }
+
+        animationFrame = requestAnimationFrame(createStarfall);
     }
 
-    // Create frequent starfall
-    function starfallLoop() {
-        createStarfall();
-        setTimeout(starfallLoop, Math.random() * 1000 + 500); // Every 0.5-1.5 seconds
-    }
+    // Start animation
+    animationFrame = requestAnimationFrame(createStarfall);
 
-    // Start after delay
-    setTimeout(starfallLoop, 1000);
+    // Cleanup function
+    return () => {
+        if (animationFrame) {
+            cancelAnimationFrame(animationFrame);
+        }
+    };
 }
 
-// SHOOTING STARS
+// SHOOTING STARS - OPTIMIZED
 function initShootingStars() {
+    if (isMobile()) return;
+
     const container = document.getElementById('shootingStars');
     if (!container) return;
 
-    function createShootingStar() {
-        // Create multiple shooting stars
-        const starCount = Math.floor(Math.random() * 2) + 1;
+    let animationFrame;
+    const shootingStars = [];
+    const maxStars = 3;
 
-        for (let i = 0; i < starCount; i++) {
-            const star = document.createElement('div');
-            star.className = 'shooting-star';
-
-            // Random starting position
-            const startX = -150;
-            const startY = Math.random() * 60 + 20;
-
-            // Random angle and distance
-            const angle = Math.random() * 25 + 15;
-            const distance = Math.random() * 400 + 300;
-
-            // Random color with golden bias
-            const colors = ['#ffffff', '#FFD700', '#22d3ee', '#818cf8'];
-            const color = colors[Math.floor(Math.random() * colors.length)];
-
-            // Apply styles
-            star.style.left = `${startX}px`;
-            star.style.top = `${startY}%`;
-            star.style.background = `linear-gradient(90deg, transparent, ${color}, transparent)`;
-            star.style.opacity = (Math.random() * 0.6 + 0.3).toString();
-            star.style.transform = `rotate(${angle}deg)`;
-
-            container.appendChild(star);
-
-            // Calculate end position
-            const endX = startX + distance * Math.cos(angle * Math.PI / 180);
-            const endY = startY + distance * Math.sin(angle * Math.PI / 180);
-
-            // Animate
-            const animation = star.animate([{
-                    transform: `translate(0, 0) rotate(${angle}deg)`,
-                    opacity: 0
-                },
-                {
-                    transform: `translate(${endX}px, ${endY}px) rotate(${angle}deg)`,
-                    opacity: 1
-                },
-                {
-                    transform: `translate(${endX}px, ${endY}px) rotate(${angle}deg)`,
-                    opacity: 0
+    function updateShootingStars(timestamp) {
+        // Remove old stars
+        shootingStars.forEach((star, index) => {
+            if (timestamp - star.startTime > 2000) {
+                if (star.element.parentNode === container) {
+                    container.removeChild(star.element);
                 }
-            ], {
-                duration: Math.random() * 2500 + 1500,
-                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
-            });
+                shootingStars.splice(index, 1);
+            }
+        });
 
-            // Remove after animation
-            animation.onfinish = () => {
-                if (star.parentNode) {
-                    star.parentNode.removeChild(star);
-                }
-            };
+        // Add new star if needed
+        if (shootingStars.length < maxStars && Math.random() > 0.95) {
+            createShootingStar(timestamp);
         }
+
+        animationFrame = requestAnimationFrame(updateShootingStars);
     }
 
-    // Create shooting stars frequently
-    function shootingStarsLoop() {
-        createShootingStar();
-        setTimeout(shootingStarsLoop, Math.random() * 3000 + 2000);
+    function createShootingStar(timestamp) {
+        const star = document.createElement('div');
+        const startX = -150;
+        const startY = Math.random() * 60 + 20;
+        const angle = Math.random() * 25 + 15;
+        const distance = Math.random() * 400 + 300;
+
+        star.style.cssText = `
+            position: absolute;
+            left: ${startX}px;
+            top: ${startY}%;
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, white, transparent);
+            transform: rotate(${angle}deg);
+            pointer-events: none;
+            will-change: transform;
+        `;
+
+        container.appendChild(star);
+
+        const animation = star.animate([
+            { transform: `translate(0, 0) rotate(${angle}deg)`, opacity: 0 },
+            { transform: `translate(${distance}px, ${distance * Math.tan(angle * Math.PI / 180)}px) rotate(${angle}deg)`, opacity: 1 },
+            { transform: `translate(${distance * 1.2}px, ${distance * 1.2 * Math.tan(angle * Math.PI / 180)}px) rotate(${angle}deg)`, opacity: 0 }
+        ], {
+            duration: Math.random() * 2000 + 1500,
+            easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+        });
+
+        shootingStars.push({
+            element: star,
+            startTime: timestamp,
+            animation: animation
+        });
+
+        animation.onfinish = () => {
+            if (star.parentNode === container) {
+                container.removeChild(star);
+            }
+        };
     }
 
-    // Start after delay
-    setTimeout(shootingStarsLoop, 1500);
+    animationFrame = requestAnimationFrame(updateShootingStars);
+
+    return () => {
+        if (animationFrame) {
+            cancelAnimationFrame(animationFrame);
+        }
+        shootingStars.forEach(star => {
+            if (star.animation) star.animation.cancel();
+            if (star.element.parentNode === container) {
+                container.removeChild(star.element);
+            }
+        });
+    };
 }
 
-// METEOR SHOWER
+// METEOR SHOWER - OPTIMIZED
 function initMeteorShower() {
+    if (isMobile()) return;
+
     const container = document.getElementById('meteorShower');
     if (!container) return;
 
+    let timeout;
+
     function createMeteor() {
-        // Create meteor shower
-        const meteorCount = Math.floor(Math.random() * 3) + 1;
+        const meteor = document.createElement('div');
+        const startX = Math.random() * 100 + 100;
+        const angle = Math.random() * 15 + 10;
+        const duration = Math.random() * 3000 + 2000;
 
-        for (let i = 0; i < meteorCount; i++) {
-            const meteor = document.createElement('div');
-            meteor.className = 'meteor';
+        meteor.style.cssText = `
+            position: absolute;
+            left: ${startX}%;
+            top: -20px;
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+            transform: rotate(${angle}deg);
+            opacity: 0;
+            pointer-events: none;
+            will-change: transform, opacity;
+        `;
 
-            // Random starting position
-            const startX = Math.random() * 100 + 100;
-            const startY = -20;
+        container.appendChild(meteor);
 
-            // Random angle and distance
-            const angle = Math.random() * 15 + 10;
-            const distance = Math.random() * 500 + 400;
+        const animation = meteor.animate([
+            { transform: `translate(0, 0) rotate(${angle}deg)`, opacity: 0 },
+            { transform: `translate(-${Math.random() * 200 + 100}px, ${Math.random() * 200 + 100}px) rotate(${angle}deg)`, opacity: 0.5 },
+            { transform: `translate(-${Math.random() * 400 + 200}px, ${Math.random() * 400 + 200}px) rotate(${angle}deg)`, opacity: 0 }
+        ], {
+            duration: duration,
+            easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+        });
 
-            // Apply styles
-            meteor.style.left = `${startX}%`;
-            meteor.style.top = `${startY}px`;
-            meteor.style.opacity = (Math.random() * 0.5 + 0.4).toString();
-            meteor.style.transform = `rotate(${angle}deg)`;
+        animation.onfinish = () => {
+            if (meteor.parentNode === container) {
+                container.removeChild(meteor);
+            }
+        };
 
-            container.appendChild(meteor);
-
-            // Calculate end position
-            const endX = startX + distance * Math.cos(angle * Math.PI / 180);
-            const endY = startY + distance * Math.sin(angle * Math.PI / 180);
-
-            // Animate
-            const animation = meteor.animate([{
-                    transform: `translate(0, 0) rotate(${angle}deg)`,
-                    opacity: 0
-                },
-                {
-                    transform: `translate(${endX}px, ${endY}px) rotate(${angle}deg)`,
-                    opacity: 1
-                },
-                {
-                    transform: `translate(${endX}px, ${endY}px) rotate(${angle}deg)`,
-                    opacity: 0
-                }
-            ], {
-                duration: Math.random() * 3000 + 2000,
-                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
-            });
-
-            // Remove after animation
-            animation.onfinish = () => {
-                if (meteor.parentNode) {
-                    meteor.parentNode.removeChild(meteor);
-                }
-            };
-        }
+        // Schedule next meteor
+        const nextDelay = Math.random() * 5000 + 3000;
+        timeout = setTimeout(createMeteor, nextDelay);
     }
 
-    // Create meteor shower periodically
-    function meteorLoop() {
-        createMeteor();
-        setTimeout(meteorLoop, Math.random() * 5000 + 3000);
-    }
+    // Start with delay
+    timeout = setTimeout(createMeteor, 3000);
 
-    // Start after delay
-    setTimeout(meteorLoop, 3000);
+    return () => {
+        if (timeout) clearTimeout(timeout);
+    };
 }
 
-// SPACE DEBRIS
+// SPACE DEBRIS - OPTIMIZED
 function initSpaceDebris() {
-    const container = document.getElementById('spaceDebris');
-    if (!container || isMobile()) return;
+    if (isMobile()) return;
 
-    const debrisCount = 30;
+    const container = document.getElementById('spaceDebris');
+    if (!container) return;
+
+    const debrisCount = 15; // Reduced count
 
     for (let i = 0; i < debrisCount; i++) {
         const debris = document.createElement('div');
-        debris.className = 'debris';
-
-        // Random properties
-        const size = Math.random() * 5 + 1;
+        const size = Math.random() * 3 + 1;
         const x = Math.random() * 100;
         const y = Math.random() * 100;
         const duration = Math.random() * 30 + 20;
         const delay = Math.random() * 10;
 
-        // Apply styles
-        debris.style.width = `${size}px`;
-        debris.style.height = `${size}px`;
-        debris.style.left = `${x}%`;
-        debris.style.top = `${y}%`;
-        debris.style.opacity = (Math.random() * 0.3 + 0.1).toString();
-
-        // Animation
-        debris.style.animation = `debrisFloat ${duration}s linear infinite ${delay}s`;
+        debris.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}%;
+            top: ${y}%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            opacity: ${Math.random() * 0.3 + 0.1};
+            animation: float ${duration}s linear infinite ${delay}s;
+            pointer-events: none;
+            will-change: transform;
+        `;
 
         container.appendChild(debris);
     }
-
-    // Add debris float animation
-    if (!document.querySelector('#debrisFloat')) {
-        const style = document.createElement('style');
-        style.id = 'debrisFloat';
-        style.textContent = `
-            @keyframes debrisFloat {
-                0% {
-                    transform: translate(0, 0) rotate(0deg);
-                }
-                25% {
-                    transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) rotate(90deg);
-                }
-                50% {
-                    transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) rotate(180deg);
-                }
-                75% {
-                    transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) rotate(270deg);
-                }
-                100% {
-                    transform: translate(0, 0) rotate(360deg);
-                }
-            }
-        `;
-        document.head.appendChild(style);
-    }
 }
 
-// PROFESSIONAL CURSOR SYSTEM
+// PROFESSIONAL CURSOR SYSTEM - DESKTOP ONLY
 function initCursorSystem() {
+    if (isMobile()) return;
+
     const cursorTriangle = document.getElementById('cursorTriangle');
     const cursorCircle = document.getElementById('cursorCircle');
     const cursorTrail = document.getElementById('cursorTrail');
+
+    if (!cursorTriangle || !cursorCircle || !cursorTrail) return;
 
     let mouseX = 0;
     let mouseY = 0;
@@ -496,7 +503,7 @@ function initCursorSystem() {
     let circleY = 0;
     let trailX = 0;
     let trailY = 0;
-    let triangleRotate = 0;
+    let animationFrame;
 
     // Mouse move event
     document.addEventListener('mousemove', (e) => {
@@ -514,15 +521,9 @@ function initCursorSystem() {
         trailX += (mouseX - trailX) * 0.05;
         trailY += (mouseY - trailY) * 0.05;
 
-        // Rotate triangle based on movement
-        const dx = mouseX - circleX;
-        const dy = mouseY - circleY;
-        triangleRotate = Math.atan2(dy, dx) * 180 / Math.PI + 90;
-
         // Update positions
         cursorTriangle.style.left = mouseX + 'px';
         cursorTriangle.style.top = mouseY + 'px';
-        cursorTriangle.style.transform = `translate(-50%, -50%) rotate(${triangleRotate}deg)`;
 
         cursorCircle.style.left = circleX + 'px';
         cursorCircle.style.top = circleY + 'px';
@@ -530,7 +531,7 @@ function initCursorSystem() {
         cursorTrail.style.left = trailX + 'px';
         cursorTrail.style.top = trailY + 'px';
 
-        requestAnimationFrame(animateCursor);
+        animationFrame = requestAnimationFrame(animateCursor);
     }
 
     // Hover effects
@@ -541,43 +542,88 @@ function initCursorSystem() {
 
     hoverElements.forEach(element => {
         element.addEventListener('mouseenter', () => {
-            cursorTriangle.style.borderBottomColor = 'var(--primary)';
-            cursorTriangle.style.transform = `translate(-50%, -50%) rotate(${triangleRotate}deg) scale(1.3)`;
+            cursorTriangle.style.transform = 'translate(-50%, -50%) scale(1.3)';
             cursorCircle.style.width = '60px';
             cursorCircle.style.height = '60px';
-            cursorCircle.style.borderColor = 'var(--primary)';
-            cursorTrail.style.opacity = '0.6';
-            cursorTrail.style.width = '30px';
-            cursorTrail.style.height = '30px';
         });
 
         element.addEventListener('mouseleave', () => {
-            cursorTriangle.style.borderBottomColor = 'var(--golden-primary)';
-            cursorTriangle.style.transform = `translate(-50%, -50%) rotate(${triangleRotate}deg) scale(1)`;
+            cursorTriangle.style.transform = 'translate(-50%, -50%) scale(1)';
             cursorCircle.style.width = '40px';
             cursorCircle.style.height = '40px';
-            cursorCircle.style.borderColor = 'var(--accent)';
-            cursorTrail.style.opacity = '0.3';
-            cursorTrail.style.width = '20px';
-            cursorTrail.style.height = '20px';
         });
     });
 
-    // Click effect
-    document.addEventListener('mousedown', () => {
-        cursorTriangle.style.transform = `translate(-50%, -50%) rotate(${triangleRotate}deg) scale(0.8)`;
-        cursorCircle.style.width = '35px';
-        cursorCircle.style.height = '35px';
-    });
-
-    document.addEventListener('mouseup', () => {
-        cursorTriangle.style.transform = `translate(-50%, -50%) rotate(${triangleRotate}deg) scale(1)`;
-        cursorCircle.style.width = '40px';
-        cursorCircle.style.height = '40px';
-    });
-
     // Start animation
-    animateCursor();
+    animationFrame = requestAnimationFrame(animateCursor);
+
+    // Cleanup
+    return () => {
+        if (animationFrame) {
+            cancelAnimationFrame(animationFrame);
+        }
+    };
+}
+
+// PROFILE IMAGE LOADING - OPTIMIZED
+function loadProfileImage() {
+    const profileImage = document.querySelector('.profile-image');
+    if (!profileImage) return;
+
+    console.log('Loading profile image...');
+
+    // Multiple fallback sources
+    const imageSources = [
+        'assets/profile_image.png',
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    ];
+
+    let currentIndex = 0;
+
+    function loadImage() {
+        if (currentIndex >= imageSources.length) {
+            console.log('All sources failed');
+            return;
+        }
+
+        const source = imageSources[currentIndex];
+        console.log(`Loading image: ${source}`);
+
+        const img = new Image();
+
+        img.onload = function() {
+            console.log(`✓ Image loaded: ${source}`);
+            profileImage.src = source;
+            profileImage.style.opacity = '1';
+            profileImage.style.transition = 'opacity 0.5s ease';
+
+            // Optimize for mobile
+            if (isMobile()) {
+                profileImage.style.imageRendering = 'optimizeQuality';
+            }
+        };
+
+        img.onerror = function() {
+            console.log(`✗ Failed to load: ${source}`);
+            currentIndex++;
+            setTimeout(loadImage, 500);
+        };
+
+        // Set timeout for stalled requests
+        setTimeout(() => {
+            if (!img.complete) {
+                console.log(`Timeout for: ${source}`);
+                currentIndex++;
+                loadImage();
+            }
+        }, 3000);
+
+        img.src = source;
+    }
+
+    // Start loading
+    loadImage();
 }
 
 // THEME MANAGEMENT
@@ -632,7 +678,7 @@ function updateThemeColors(isLight) {
     }
 }
 
-// TYPEWRITER EFFECT
+// TYPEWRITER EFFECT - OPTIMIZED
 function initTypewriterEffect() {
     const typewriterText = document.getElementById('typewriterText');
     if (!typewriterText) return;
@@ -649,6 +695,7 @@ function initTypewriterEffect() {
     let charIndex = 0;
     let isDeleting = false;
     let isPaused = false;
+    let timeout;
 
     function type() {
         if (isPaused) return;
@@ -666,7 +713,7 @@ function initTypewriterEffect() {
         }
 
         // Typing speed
-        let typeSpeed = 100;
+        let typeSpeed = isMobile() ? 150 : 100; // Slower on mobile
 
         if (isDeleting) {
             typeSpeed /= 2;
@@ -675,10 +722,10 @@ function initTypewriterEffect() {
         // Pause at the end of typing
         if (!isDeleting && charIndex === currentText.length) {
             isPaused = true;
-            setTimeout(() => {
+            timeout = setTimeout(() => {
                 isPaused = false;
                 isDeleting = true;
-                setTimeout(type, 500);
+                timeout = setTimeout(type, 500);
             }, 2000);
             return;
         }
@@ -687,19 +734,24 @@ function initTypewriterEffect() {
         if (isDeleting && charIndex === 0) {
             isDeleting = false;
             textIndex = (textIndex + 1) % texts.length;
-            setTimeout(type, 500);
+            timeout = setTimeout(type, 500);
             return;
         }
 
         // Continue typing
-        setTimeout(type, typeSpeed);
+        timeout = setTimeout(type, typeSpeed);
     }
 
-    // Start typing effect
-    setTimeout(type, 1000);
+    // Start typing effect with delay
+    timeout = setTimeout(type, 1000);
+
+    // Cleanup
+    return () => {
+        if (timeout) clearTimeout(timeout);
+    };
 }
 
-// NAVIGATION
+// NAVIGATION - OPTIMIZED FOR MOBILE
 function initNavigation() {
     const navHamburger = document.querySelector('.nav-hamburger');
     const navMenu = document.querySelector('.nav-menu');
@@ -707,7 +759,8 @@ function initNavigation() {
 
     // Mobile menu toggle
     if (navHamburger && navMenu) {
-        navHamburger.addEventListener('click', () => {
+        navHamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
             navHamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
             document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
@@ -715,7 +768,18 @@ function initNavigation() {
 
         // Close menu when clicking outside
         document.addEventListener('click', (e) => {
-            if (!navHamburger.contains(e.target) && !navMenu.contains(e.target)) {
+            if (navMenu.classList.contains('active') &&
+                !navHamburger.contains(e.target) &&
+                !navMenu.contains(e.target)) {
+                navHamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close menu on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
                 navHamburger.classList.remove('active');
                 navMenu.classList.remove('active');
                 document.body.style.overflow = '';
@@ -724,40 +788,48 @@ function initNavigation() {
     }
 
     // Update active nav link on scroll
+    let scrollTimeout;
     window.addEventListener('scroll', () => {
-        const scrollPos = window.scrollY + 100;
+        // Throttle scroll events
+        if (scrollTimeout) return;
 
-        navItems.forEach(link => {
-            const section = document.querySelector(link.getAttribute('href'));
-            if (section) {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
+        scrollTimeout = setTimeout(() => {
+            const scrollPos = window.scrollY + 100;
 
-                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                    link.classList.add('active');
+            navItems.forEach(link => {
+                const section = document.querySelector(link.getAttribute('href'));
+                if (section) {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+
+                    if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                }
+            });
+
+            // Update header background on scroll
+            const header = document.querySelector('.cosmic-nav');
+            if (header) {
+                if (window.scrollY > 50) {
+                    header.style.background = 'rgba(5, 5, 17, 0.98)';
+                    header.style.backdropFilter = 'blur(10px)';
                 } else {
-                    link.classList.remove('active');
+                    header.style.background = 'rgba(5, 5, 17, 0.9)';
+                    header.style.backdropFilter = 'blur(5px)';
                 }
             }
-        });
 
-        // Update header background on scroll
-        const header = document.querySelector('.cosmic-nav');
-        if (header) {
-            if (window.scrollY > 50) {
-                header.style.background = 'rgba(5, 5, 17, 0.98)';
-                header.style.backdropFilter = 'blur(30px)';
-            } else {
-                header.style.background = 'rgba(5, 5, 17, 0.9)';
-                header.style.backdropFilter = 'blur(20px)';
-            }
-        }
+            scrollTimeout = null;
+        }, isMobile() ? 100 : 50); // Longer delay on mobile
     });
 
     // Close menu when clicking on a link
     navItems.forEach(link => {
         link.addEventListener('click', () => {
-            if (navHamburger && navMenu) {
+            if (navHamburger && navMenu && navMenu.classList.contains('active')) {
                 navHamburger.classList.remove('active');
                 navMenu.classList.remove('active');
                 document.body.style.overflow = '';
@@ -766,7 +838,7 @@ function initNavigation() {
     });
 }
 
-// FORM SUBMISSION WITH FORMSPREE
+// FORM SUBMISSION WITH FORMSPREE - OPTIMIZED
 function initFormSubmission() {
     const contactForm = document.getElementById('contactForm');
     if (!contactForm) return;
@@ -799,17 +871,38 @@ function initFormSubmission() {
             }
 
             // Send email using Formspree
-            await sendEmailFormspree(data);
+            const response = await fetch('https://formspree.io/f/meegkrwa', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: data.name,
+                    email: data.email,
+                    subject: data.subject,
+                    message: data.message,
+                    _replyto: data.email
+                })
+            });
 
-            // Success
-            formResponse.textContent = '✅ Thank you! Your message has been sent successfully.';
-            formResponse.className = 'form-response success';
+            const result = await response.json();
 
-            // Reset form
-            contactForm.reset();
+            if (response.ok) {
+                // Success
+                formResponse.textContent = '✅ Thank you! Your message has been sent successfully.';
+                formResponse.className = 'form-response success';
+
+                // Reset form
+                contactForm.reset();
+
+            } else {
+                throw new Error(result.error || 'Failed to send email');
+            }
 
         } catch (error) {
             // Error
+            console.error('Form submission error:', error);
             formResponse.textContent = `❌ ${error.message || 'Oops! There was a problem sending your message.'}`;
             formResponse.className = 'form-response error';
         } finally {
@@ -825,53 +918,9 @@ function initFormSubmission() {
     });
 }
 
-// FORMSPREE EMAIL FUNCTION
-async function sendEmailFormspree(formData) {
-    try {
-        const FORMSPREE_ENDPOINT = 'https://formspree.io/f/meegkrwa';
-
-        const response = await fetch(FORMSPREE_ENDPOINT, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                name: formData.name,
-                email: formData.email,
-                subject: formData.subject,
-                message: formData.message,
-                _replyto: formData.email
-            })
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-            console.log('Email sent successfully via Formspree');
-            return result;
-        } else {
-            throw new Error(result.error || 'Failed to send email');
-        }
-
-    } catch (error) {
-        console.error('Formspree Error:', error);
-
-        // Fallback: Simple mailto link
-        const mailtoLink = `mailto:patelkunal3737@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
-            `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-        )}`;
-        
-        // For demo - open email client
-        window.open(mailtoLink, '_blank');
-        
-        // Return success for demo purposes
-        return { success: true, message: 'Opening email client...' };
-    }
-}
-
-// SCROLL ANIMATIONS
+// SCROLL ANIMATIONS - OPTIMIZED
 function initScrollAnimations() {
+    // Use IntersectionObserver for better performance
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -880,35 +929,49 @@ function initScrollAnimations() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
+                // Use requestAnimationFrame for smooth animations
+                requestAnimationFrame(() => {
+                    entry.target.classList.add('animate-in');
+                });
             }
         });
     }, observerOptions);
 
-    // Observe elements
+    // Observe only visible elements
     const animatedElements = document.querySelectorAll(
-        '.hero-content, .hero-visual, .about-intro, .about-features, .stats-container, ' +
-        '.skill-category, .project-card, .timeline-item, .education-card, ' +
+        '.hero-content, .hero-visual, .about-intro, .about-features, ' +
+        '.project-card, .timeline-item, .education-card, ' +
         '.info-card, .form-card, .certificate-card'
     );
 
     animatedElements.forEach((el, index) => {
-        el.classList.add(`delay-${(index % 4) + 1}`);
+        // Add delay only for desktop
+        if (!isMobile()) {
+            el.classList.add(`delay-${(index % 4) + 1}`);
+        }
         observer.observe(el);
     });
 }
 
-// BACK TO TOP BUTTON
+// BACK TO TOP BUTTON - OPTIMIZED
 function initBackToTop() {
     const backToTop = document.getElementById('backToTop');
     if (!backToTop) return;
 
+    let scrollTimeout;
+
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            backToTop.classList.add('visible');
-        } else {
-            backToTop.classList.remove('visible');
-        }
+        // Throttle scroll events
+        if (scrollTimeout) return;
+
+        scrollTimeout = setTimeout(() => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+            scrollTimeout = null;
+        }, isMobile() ? 150 : 50);
     });
 
     // Smooth scroll to top
@@ -921,7 +984,7 @@ function initBackToTop() {
     });
 }
 
-// SMOOTH SCROLLING
+// SMOOTH SCROLLING - OPTIMIZED
 function initSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -932,7 +995,7 @@ function initSmoothScrolling() {
 
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
-                const headerHeight = document.querySelector('.cosmic-nav').offsetHeight;
+                const headerHeight = document.querySelector('.cosmic-nav').offsetHeight || 0;
                 const targetPosition = targetElement.offsetTop - headerHeight;
 
                 window.scrollTo({
@@ -944,144 +1007,121 @@ function initSmoothScrolling() {
     });
 }
 
-// PROGRESS BARS ANIMATION
+// PROGRESS BARS ANIMATION - OPTIMIZED
 function initProgressBars() {
     const progressCircles = document.querySelectorAll('.circular-progress');
 
     progressCircles.forEach(circle => {
         const value = circle.getAttribute('data-value') || 88;
-        const circumference = 2 * Math.PI * 45; // Radius is 45
-        const offset = circumference * (1 - value / 100);
-
         const progressFill = circle.querySelector('.progress-fill');
+
         if (progressFill) {
+            // Use transform for better performance
+            const circumference = 2 * Math.PI * 45;
+            const offset = circumference * (1 - value / 100);
+
+            progressFill.style.transform = `rotate(-90deg)`;
+            progressFill.style.transformOrigin = 'center';
             progressFill.style.strokeDasharray = `${circumference} ${circumference}`;
             progressFill.style.strokeDashoffset = offset;
-        }
-
-        // Create gradient for progress circle
-        const svg = circle.querySelector('svg');
-        if (svg) {
-            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-            const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
-            gradient.setAttribute('id', `gradient-${Math.random().toString(36).substr(2, 9)}`);
-            gradient.setAttribute('x1', '0%');
-            gradient.setAttribute('y1', '0%');
-            gradient.setAttribute('x2', '100%');
-            gradient.setAttribute('y2', '100%');
-
-            const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-            stop1.setAttribute('offset', '0%');
-            stop1.setAttribute('stop-color', '#FFD700');
-
-            const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-            stop2.setAttribute('offset', '100%');
-            stop2.setAttribute('stop-color', '#6366f1');
-
-            gradient.appendChild(stop1);
-            gradient.appendChild(stop2);
-            defs.appendChild(gradient);
-            svg.appendChild(defs);
-
-            if (progressFill) {
-                progressFill.style.stroke = `url(#${gradient.id})`;
-            }
         }
     });
 }
 
-// ROTATING CUBE INTERACTION
+// ROTATING CUBE INTERACTION - OPTIMIZED
 function initRotatingCube() {
     const rotatingCube = document.querySelector('.rotating-cube');
     if (!rotatingCube) return;
 
+    // Slower rotation on mobile
+    if (isMobile()) {
+        rotatingCube.style.animationDuration = '30s';
+    }
+
     let isHovering = false;
-    let rotationSpeed = 1;
-    let currentRotation = 0;
+    let animationFrame;
 
-    // Mouse enter/leave events
-    rotatingCube.addEventListener('mouseenter', () => {
-        isHovering = true;
-        rotatingCube.style.animationPlayState = 'paused';
-    });
+    // Mouse enter/leave events (desktop only)
+    if (!isMobile()) {
+        rotatingCube.addEventListener('mouseenter', () => {
+            isHovering = true;
+            rotatingCube.style.animationPlayState = 'paused';
+        });
 
-    rotatingCube.addEventListener('mouseleave', () => {
-        isHovering = false;
-        rotatingCube.style.animationPlayState = 'running';
-    });
+        rotatingCube.addEventListener('mouseleave', () => {
+            isHovering = false;
+            rotatingCube.style.animationPlayState = 'running';
+        });
 
-    // Mouse move for manual rotation
-    rotatingCube.addEventListener('mousemove', (e) => {
-        if (!isHovering) return;
+        // Mouse move for manual rotation
+        rotatingCube.addEventListener('mousemove', (e) => {
+            if (!isHovering) return;
 
-        const rect = rotatingCube.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
+            const rect = rotatingCube.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
 
-        const deltaX = e.clientX - centerX;
-        const deltaY = e.clientY - centerY;
+            const deltaX = e.clientX - centerX;
+            const deltaY = e.clientY - centerY;
 
-        // Calculate rotation based on mouse position
-        const rotationX = (deltaY / rect.height) * 180;
-        const rotationY = (deltaX / rect.width) * 180;
+            // Calculate rotation based on mouse position
+            const rotationX = (deltaY / rect.height) * 180;
+            const rotationY = (deltaX / rect.width) * 180;
 
-        rotatingCube.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
-    });
+            // Use requestAnimationFrame for smooth updates
+            if (animationFrame) {
+                cancelAnimationFrame(animationFrame);
+            }
+
+            animationFrame = requestAnimationFrame(() => {
+                rotatingCube.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+            });
+        });
+    }
+
+    return () => {
+        if (animationFrame) {
+            cancelAnimationFrame(animationFrame);
+        }
+    };
 }
 
-// HOVER EFFECTS
+// HOVER EFFECTS - DISABLED ON MOBILE
 function initHoverEffects() {
+    if (isMobile()) return; // No hover effects on mobile
+
     // Add hover effect to cards
-    const cards = document.querySelectorAll('.feature-card, .project-card, .education-card, .certificate-card, .info-card, .form-card');
+    const cards = document.querySelectorAll('.feature-card, .project-card, .education-card, .certificate-card');
 
     cards.forEach(card => {
         card.addEventListener('mouseenter', () => {
             card.style.transform = 'translateY(-10px)';
-            card.style.boxShadow = '0 25px 60px rgba(0, 0, 0, 0.4)';
+            card.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
         });
 
         card.addEventListener('mouseleave', () => {
             card.style.transform = 'translateY(0)';
-            card.style.boxShadow = 'none';
-        });
-    });
-
-    // Add glow effect to interactive elements
-    const interactiveElements = document.querySelectorAll('.tech-icon, .social-item, .project-link');
-
-    interactiveElements.forEach(element => {
-        element.addEventListener('mouseenter', () => {
-            element.style.filter = 'drop-shadow(0 0 10px rgba(255, 215, 0, 0.5))';
-        });
-
-        element.addEventListener('mouseleave', () => {
-            element.style.filter = 'none';
         });
     });
 }
 
-// PRELOAD IMAGES
-function preloadImages() {
-    const images = [
-        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
-        'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    ];
-
-    images.forEach(src => {
-        const img = new Image();
-        img.src = src;
-    });
-}
-
-// PARALLAX EFFECTS
+// PARALLAX EFFECTS - DESKTOP ONLY
 function initParallaxEffects() {
+    if (isMobile()) return;
+
     const auroraLayers = document.querySelectorAll('.aurora-layer');
     const nebulaClouds = document.querySelectorAll('.nebula-cloud');
 
-    document.addEventListener('mousemove', (e) => {
-        const mouseX = e.clientX / window.innerWidth;
-        const mouseY = e.clientY / window.innerHeight;
+    let animationFrame;
+    let mouseX = 0;
+    let mouseY = 0;
 
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX / window.innerWidth;
+        mouseY = e.clientY / window.innerHeight;
+    });
+
+    function updateParallax() {
         // Parallax for aurora layers
         auroraLayers.forEach((layer, index) => {
             const speed = (index + 1) * 0.8;
@@ -1099,131 +1139,86 @@ function initParallaxEffects() {
 
             cloud.style.transform = `translate(${x}px, ${y}px)`;
         });
-    });
+
+        animationFrame = requestAnimationFrame(updateParallax);
+    }
+
+    // Start parallax effect
+    animationFrame = requestAnimationFrame(updateParallax);
+
+    return () => {
+        if (animationFrame) {
+            cancelAnimationFrame(animationFrame);
+        }
+    };
 }
 
-// WINDOW RESIZE HANDLER
+// WINDOW RESIZE HANDLER - OPTIMIZED
+let resizeTimeout;
 window.addEventListener('resize', () => {
-    // Reinitialize effects on resize
-    initEnhancedStarfield();
+    // Debounce resize events
+    if (resizeTimeout) clearTimeout(resizeTimeout);
 
-    // Update cursor system if on desktop
-    if (!isMobile()) {
-        initCursorSystem();
-    }
+    resizeTimeout = setTimeout(() => {
+        // Only reinitialize if needed
+        if (!isMobile()) {
+            initEnhancedStarfield();
+            initCursorSystem();
+        }
+    }, 250);
 });
 
 // PERFORMANCE OPTIMIZATION
-let lastScrollTime = 0;
-const scrollInterval = 150;
-
-window.addEventListener('scroll', () => {
-    const now = Date.now();
-
-    if (now - lastScrollTime > scrollInterval) {
-        lastScrollTime = now;
-
-        // Update scroll-based effects
-        updateScrollEffects();
-    }
-});
-
-function updateScrollEffects() {
-    // Update progress bars when in view
-    const progressSection = document.querySelector('.about-section');
-    if (progressSection) {
-        const rect = progressSection.getBoundingClientRect();
-        const isInView = rect.top < window.innerHeight && rect.bottom >= 0;
-
-        if (isInView) {
-            initProgressBars();
-        }
-    }
-}
-
-// Initialize scroll effects
-updateScrollEffects();
-
-// Add keyboard navigation
-document.addEventListener('keydown', (e) => {
-    // Escape key closes mobile menu
-    if (e.key === 'Escape') {
-        const navMenu = document.querySelector('.nav-menu');
-        const navHamburger = document.querySelector('.nav-hamburger');
-
-        if (navMenu && navMenu.classList.contains('active')) {
-            navMenu.classList.remove('active');
-            navHamburger.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    }
-
-    // Arrow keys for navigation
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-        e.preventDefault();
-
-        const currentSection = getCurrentSection();
-        const sections = ['home', 'about', 'experience', 'education', 'projects', 'contact'];
-        const currentIndex = sections.indexOf(currentSection);
-
-        let nextIndex;
-        if (e.key === 'ArrowDown') {
-            nextIndex = currentIndex < sections.length - 1 ? currentIndex + 1 : 0;
-        } else {
-            nextIndex = currentIndex > 0 ? currentIndex - 1 : sections.length - 1;
-        }
-
-        const nextSection = document.getElementById(sections[nextIndex]);
-        if (nextSection) {
-            const headerHeight = document.querySelector('.cosmic-nav').offsetHeight;
-            const targetPosition = nextSection.offsetTop - headerHeight;
-
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        }
-    }
-});
-
-function getCurrentSection() {
-    const sections = ['home', 'about', 'experience', 'education', 'projects', 'contact'];
-    const scrollPos = window.scrollY + 100;
-
-    for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-            const sectionTop = element.offsetTop;
-            const sectionHeight = element.offsetHeight;
-
-            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                return section;
-            }
-        }
-    }
-
-    return 'home';
-}
-
-// Add loading state for better UX
 window.addEventListener('load', () => {
-    // Remove any loading indicators if present
+    console.log('Page fully loaded');
+
+    // Add loaded class for transitions
+    document.body.classList.add('loaded');
+
+    // Remove loading indicators if any
     const loadingElements = document.querySelectorAll('.loading-indicator');
     loadingElements.forEach(el => el.remove());
 
-    // Add loaded class to body for transition effects
-    document.body.classList.add('loaded');
+    // Optimize animations after load
+    if (isMobile()) {
+        // Reduce animation quality on mobile
+        document.querySelectorAll('*[style*="animation"]').forEach(el => {
+            const style = window.getComputedStyle(el);
+            const animation = style.animation;
+            if (animation && animation.includes('steps')) {
+                el.style.animation = animation.replace(/\d+ steps/, '10 steps');
+            }
+        });
+    }
 });
 
-// Initialize performance monitoring
-function monitorPerformance() {
-    if ('performance' in window) {
-        const timing = performance.getEntriesByType('navigation')[0];
-        if (timing) {
-            console.log(`Page loaded in ${timing.domContentLoadedEventEnd - timing.fetchStart}ms`);
-        }
+// CLEANUP FUNCTION
+function cleanup() {
+    // Clear all timeouts and intervals
+    const highestId = setTimeout(() => {}, 0);
+    for (let i = 0; i < highestId; i++) {
+        clearTimeout(i);
+        clearInterval(i);
+    }
+
+    // Cancel all animations
+    if (typeof Animation !== 'undefined') {
+        document.getAnimations().forEach(anim => anim.cancel());
     }
 }
 
-// Call performance monitoring
-setTimeout(monitorPerformance, 1000);
+// Add cleanup on page unload
+window.addEventListener('beforeunload', cleanup);
+
+// Add performance monitoring
+if (typeof PerformanceObserver !== 'undefined') {
+    const observer = new PerformanceObserver((list) => {
+        list.getEntries().forEach((entry) => {
+            console.log(`${entry.name}: ${entry.duration}ms`);
+        });
+    });
+
+    observer.observe({ entryTypes: ['paint', 'measure'] });
+}
+
+console.log('Script loaded successfully');
