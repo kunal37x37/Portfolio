@@ -2624,3 +2624,124 @@ svg defs {
 .delay-4 {
     animation-delay: 0.4s;
 }
+
+
+/* Mobile Performance Optimizations - Add this at the END of style.css */
+
+
+/* Disable complex animations on mobile */
+
+@media (max-width: 768px) {
+    .aurora-layer,
+    .nebula-cloud,
+    .space-debris,
+    .cursor-triangle,
+    .cursor-circle,
+    .cursor-trail,
+    .starfield,
+    .starfall-container,
+    .shooting-stars,
+    .meteor-shower {
+        display: none !important;
+    }
+    .rotating-cube {
+        animation: cubeRotateMobile 40s infinite linear;
+    }
+    @keyframes cubeRotateMobile {
+        0% {
+            transform: rotateY(0);
+        }
+        100% {
+            transform: rotateY(360deg);
+        }
+    }
+    /* Reduce blur effects on mobile */
+    .cube-glow,
+    .visual-trail,
+    .sphere-glow,
+    .marker-glow {
+        filter: blur(10px);
+    }
+    /* Simplify gradients */
+    * {
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+    }
+    /* Improve scrolling performance */
+    .content-container {
+        -webkit-overflow-scrolling: touch;
+    }
+    /* Reduce animations */
+    .animate-in {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+
+/* Hardware Acceleration */
+
+.hero-visual,
+.rotating-cube,
+.cube-face,
+.profile-frame,
+.cta-button,
+.project-card,
+.education-card,
+.certificate-card,
+.feature-card {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+
+/* Reduce image quality on mobile */
+
+@media (max-width: 768px) {
+    .profile-image {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+}
+
+
+/* Touch-friendly buttons */
+
+@media (max-width: 768px) {
+    .nav-item,
+    .cta-button,
+    .project-link,
+    .social-item,
+    .certificate-card,
+    .submit-button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    input,
+    textarea,
+    button {
+        font-size: 16px !important;
+        /* Prevents zoom on iOS */
+    }
+}
+
+
+/* Optimize font loading */
+
+body {
+    font-display: swap;
+    text-rendering: optimizeSpeed;
+}
+
+
+/* Reduce paint area */
+
+@media (max-width: 768px) {
+    .hero-section,
+    section {
+        will-change: auto !important;
+    }
+}
